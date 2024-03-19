@@ -1,0 +1,14 @@
+name = "sidan-lab/aiken-utils"
+version = "0.0.1"
+license = "Apache-2.0"
+description = "Aiken utils for project 'sidan-lab/aiken-utils"
+
+[repository]
+user = "sidan-lab"
+project = "aiken-utils"
+platform = "github"
+
+[[dependencies]]
+name = "aiken-lang/stdlib"
+version = "1.7.0"
+source = "github"
