@@ -7,7 +7,13 @@ This package provides useful utilities in 2 direction
 
 ## How to use
 
-Simple putting the below in you `aiken.toml`
+Simply run
+
+```sh
+aiken add sidan-lab/aiken-utils --version 0.0.1-beta
+```
+
+or putting the below in you `aiken.toml`
 
 ```toml
 [[dependencies]]
