@@ -22,3 +22,10 @@ pub fn compare_address(x: Address, y: Address) -> Ordering {
     _ -> Equal
   }
 }
+
+pub fn address_payment_key(address: Address) -> ByteArray {
+  when address.payment_credential is {
+    ScriptCredential(hash) -> hash
+    VerificationKeyCredential(key_hash) -> key_hash
+  }
+}
