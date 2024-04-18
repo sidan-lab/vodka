@@ -29,3 +29,13 @@ pub fn address_payment_key(address: Address) -> ByteArray {
     VerificationKeyCredential(key_hash) -> key_hash
   }
 }
+
+pub fn address_pub_key(address: Address) -> ByteArray {
+  expect VerificationKeyCredential(key_hash) = address.payment_credential
+  key_hash
+}
+
+pub fn address_script_hash(address: Address) -> ByteArray {
+  expect ScriptCredential(script_hash) = address.payment_credential
+  script_hash
+}
