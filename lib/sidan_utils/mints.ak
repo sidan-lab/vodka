@@ -24,8 +24,19 @@ pub fn only_minted_token(
   quantity: Int,
 ) {
   when from_minted_value(mint) |> flatten() is {
-    [(mPolicy, mAssetName, mQuantity)] ->
-      mPolicy == policy && mAssetName == name && mQuantity == quantity
+    [(minted_policy, minted_asset_name, minted_quantity)] ->
+      minted_policy == policy && minted_asset_name == name && minted_quantity == quantity
     _ -> False
   }
+}
+
+pub fn token_minted(
+  mint: MintedValue,
+  policy: PolicyId,
+  name: AssetName,
+  quantity: Int,
+) {
+  from_minted_value(mint)
+    |> flatten()
+    |> list.any(fn(x) { x.1st == policy && x.2nd == name && x.3rd == quantity })
 }
