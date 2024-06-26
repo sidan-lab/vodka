@@ -10,7 +10,7 @@ This package provides useful utilities in 2 direction
 Simply run
 
 ```sh
-aiken add sidan-lab/aiken-utils --version 0.0.5-beta
+aiken add sidan-lab/aiken-utils --version 0.1.0-beta
 ```
 
 or putting the below in you `aiken.toml`
