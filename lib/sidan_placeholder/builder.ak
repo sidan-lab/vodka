@@ -137,14 +137,62 @@ pub fn mint(
   }
 }
 
-pub fn read_only_tx_in_reference(tx_tester: TxTester, input: Input) -> TxTester {
-  TxTester {
-    ..tx_tester,
-    tx: Transaction {
-      ..tx_tester.tx,
-      reference_inputs: list.push(tx_tester.tx.reference_inputs, input),
-    },
+pub fn ref_tx_in(
+  tx_tester: TxTester,
+  tx_hash: ByteArray,
+  tx_index: Int,
+  amount: Value,
+  address: Address,
+) -> TxTester {
+  let queue_ref_input =
+    Some(
+      Input {
+        output_reference: OutputReference {
+          transaction_id: TransactionId(tx_hash),
+          output_index: tx_index,
+        },
+        output: mock_pub_key_output(address, amount),
+      },
+    )
+  when tx_tester.queue_ref_input is {
+    Some(input) ->
+      TxTester {
+        ..tx_tester,
+        queue_ref_input: queue_ref_input,
+        tx: Transaction {
+          ..tx_tester.tx,
+          reference_inputs: tx_tester.tx.reference_inputs |> list.push(input),
+        },
+      }
+    None -> TxTester { ..tx_tester, queue_ref_input: queue_ref_input }
   }
+}
+
+pub fn ref_tx_in_inline_datum(tx_tester: TxTester, datum: Data) -> TxTester {
+  let queue_ref_input =
+    when tx_tester.queue_ref_input is {
+      Some(input) -> {
+        let Input { output_reference, output } = input
+        Some(
+          Input {
+            output_reference,
+            output: Output { ..output, datum: InlineDatum(datum) },
+          },
+        )
+      }
+      None ->
+        Some(
+          Input {
+            output_reference: mock_utxo_ref(0, 0),
+            output: mock_script_output(
+              mock_script_address(0, None),
+              zero(),
+              InlineDatum(datum),
+            ),
+          },
+        )
+    }
+  TxTester { ..tx_tester, queue_ref_input: queue_ref_input }
 }
 
 pub fn invalid_before(tx_tester: TxTester, time: PosixTime) -> TxTester {
