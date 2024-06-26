@@ -1,5 +1,5 @@
 use aiken/bytearray
-use aiken/dict.{Dict}
+use aiken/dict.{Dict, from_ascending_list_with}
 use aiken/hash.{Blake2b_224, Hash}
 use aiken/list
 use aiken/option
@@ -378,6 +378,166 @@ test flatten_with_2() {
   ) == [("a", "2"), ("b", "")]
 }
 
+/// Reduce a value into a single result
+///
+/// ```
+/// value.zero()
+///  |> value.add("a", "1", 10)
+///  |> value.add("b", "2", 20)
+///  |> value.reduce(v, 0, fn(_, _, quantity, acc) { acc + quantity })
+/// // 30
+/// ```
+pub fn reduce(
+  self: Value,
+  start: acc,
+  with: fn(PolicyId, AssetName, Int, acc) -> acc,
+) -> acc {
+  dict.foldr(
+    self.inner,
+    start,
+    fn(policy_id, asset_list, result) {
+      dict.foldr(asset_list, result, with(policy_id, _, _, _))
+    },
+  )
+}
+
+test reduce_1() {
+  let v =
+    zero()
+      |> add("a", "1", 10)
+      |> add("b", "2", 20)
+  let result = reduce(v, 0, fn(_, _, quantity, acc) { acc + quantity })
+  result == 30
+}
+
+test reduce_2() {
+  let v =
+    zero()
+      |> add("a", "1", 5)
+      |> add("a", "2", 15)
+      |> add("b", "", 10)
+  let result =
+    reduce(
+      v,
+      [],
+      fn(policy_id, asset_name, _, acc) { [(policy_id, asset_name), ..acc] },
+    )
+  result == [("a", "1"), ("a", "2"), ("b", "")]
+}
+
+test reduce_3() {
+  let v = zero()
+  let result = reduce(v, 1, fn(_, _, quantity, acc) { acc + quantity })
+  result == 1
+}
+
+/// Promote an arbitrary list of assets into a `Value`. This function fails
+/// (i.e. halt the program execution) if:
+///
+/// - there's any duplicate amongst `PolicyId`;
+/// - there's any duplicate amongst `AssetName`;
+/// - the `AssetName` aren't sorted in ascending lexicographic order; or
+/// - any asset quantity is null.
+///
+/// This function is meant to turn arbitrary user-defined `Data` into safe `Value`,
+/// while checking for internal invariants.
+pub fn from_asset_list(xs: List<(PolicyId, List<(AssetName, Int)>)>) -> Value {
+  xs
+    |> list.foldr(
+        dict.new(),
+        fn(inner, acc) {
+          expect (p, [_, ..] as x) = inner
+          x
+            |> from_ascending_list_with(bytearray.compare, fn(v) { v != 0 })
+            |> dict.insert_with(
+                acc,
+                p,
+                _,
+                fn(_, _, _) {
+                  fail @"Duplicate policy in the asset list."
+                },
+                bytearray.compare,
+              )
+        },
+      )
+    |> Value
+}
+
+test from_asset_list_1() {
+  let v = from_asset_list([])
+  v == zero()
+}
+
+test from_asset_list_2() fail {
+  let v = from_asset_list([(#"33", [])])
+  v == zero()
+}
+
+test from_asset_list_3() fail {
+  let v = from_asset_list([(#"33", [(#"", 0)])])
+  v != zero()
+}
+
+test from_asset_list_4() {
+  let v = from_asset_list([(#"33", [(#"", 1)])])
+  flatten(v) == [(#"33", #"", 1)]
+}
+
+test from_asset_list_5() {
+  let v = from_asset_list([(#"33", [(#"", 1), (#"33", 1)])])
+  flatten(v) == [(#"33", #"", 1), (#"33", #"33", 1)]
+}
+
+test from_asset_list_6() fail {
+  let v =
+    from_asset_list(
+      [(#"33", [(#"", 1), (#"33", 1)]), (#"33", [(#"", 1), (#"33", 1)])],
+    )
+  v != zero()
+}
+
+test from_asset_list_7() fail {
+  let v =
+    from_asset_list(
+      [(#"33", [(#"", 1), (#"33", 1)]), (#"34", [(#"", 1), (#"", 1)])],
+    )
+  v != zero()
+}
+
+test from_asset_list_8() {
+  let v =
+    from_asset_list(
+      [
+        (#"33", [(#"", 1), (#"33", 1)]),
+        (#"34", [(#"31", 1)]),
+        (#"35", [(#"", 1)]),
+      ],
+    )
+  flatten(v) == [
+    (#"33", #"", 1),
+    (#"33", #"33", 1),
+    (#"34", #"31", 1),
+    (#"35", #"", 1),
+  ]
+}
+
+test from_asset_list_9() {
+  let v =
+    from_asset_list(
+      [
+        (#"35", [(#"", 1)]),
+        (#"33", [(#"", 1), (#"33", 1)]),
+        (#"34", [(#"31", 1)]),
+      ],
+    )
+  flatten(v) == [
+    (#"33", #"", 1),
+    (#"33", #"33", 1),
+    (#"34", #"31", 1),
+    (#"35", #"", 1),
+  ]
+}
+
 /// Convert the value into a dictionary of dictionaries.
 pub fn to_dict(self: Value) -> Dict<PolicyId, Dict<AssetName, Int>> {
   self.inner
@@ -401,11 +561,13 @@ pub fn from_minted_value(self: MintedValue) -> Value {
 }
 
 test from_minted_value_1() {
-  flatten(from_minted_value(from_list([]))) == []
+  flatten(from_minted_value(from_internal_list([]))) == []
 }
 
 test from_minted_value_2() {
-  flatten(from_minted_value(from_list([("p0", "a0", 1)]))) == [("p0", "a0", 1)]
+  flatten(from_minted_value(from_internal_list([("p0", "a0", 1)]))) == [
+    ("p0", "a0", 1),
+  ]
 }
 
 test from_minted_value_3() {
@@ -415,7 +577,7 @@ test from_minted_value_3() {
   let result =
     [("p0", "a0", 2), ("p1", "a0", 1), ("p1", "a1", 1)]
 
-  flatten(from_minted_value(from_list(assets))) == result
+  flatten(from_minted_value(from_internal_list(assets))) == result
 }
 
 test from_minted_value_4() {
@@ -431,7 +593,7 @@ test from_minted_value_4() {
   let result =
     [("p0", "a0", 2), ("p1", "a0", 1), ("p1", "a1", 1)]
 
-  flatten(from_minted_value(from_list(assets))) == result
+  flatten(from_minted_value(from_internal_list(assets))) == result
 }
 
 test from_minted_value_5() {
@@ -454,17 +616,17 @@ test from_minted_value_5() {
       ("p3", "a7", 1),
     ]
 
-  flatten(from_minted_value(from_list(assets))) == assets
+  flatten(from_minted_value(from_internal_list(assets))) == assets
 }
 
 /// Convert a [`Value`](#Value) into a [`MintedValue`](#MintedValue).
 pub fn to_minted_value(self: Value) -> MintedValue {
   self.inner
     |> dict.insert(
-         ada_policy_id,
-         dict.insert(dict.new(), ada_asset_name, 0, bytearray.compare),
-         bytearray.compare,
-       )
+        ada_policy_id,
+        dict.insert(dict.new(), ada_asset_name, 0, bytearray.compare),
+        bytearray.compare,
+      )
     |> MintedValue
 }
 
@@ -486,7 +648,7 @@ test to_minted_value_2() {
 ///
 /// NOTE: Not exposed because we do not want people to construct `MintedValue`. Only
 /// get them from the script context.
-fn from_list(xs: List<(PolicyId, AssetName, Int)>) -> MintedValue {
+fn from_internal_list(xs: List<(PolicyId, AssetName, Int)>) -> MintedValue {
   list.foldr(
     xs,
     MintedValue(dict.new()),
