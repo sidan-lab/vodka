@@ -18,7 +18,7 @@ or putting the below in you `aiken.toml`
 ```toml
 [[dependencies]]
 name = "sidan-lab/aiken-utils"
-version = "0.0.8-beta"
+version = "0.1.0-beta"
 source = "github"
 ```
 
