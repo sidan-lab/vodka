@@ -173,28 +173,6 @@ pub fn mint(
   }
 }
 
-pub fn burn(
-  tx_tester: TxTester,
-  condition: Bool,
-  policy_id: ByteArray,
-  token_name: ByteArray,
-  quantity: Int,
-) -> TxTester {
-  if !condition {
-    tx_tester
-  } else {
-    TxTester {
-      ..tx_tester,
-      tx: Transaction {
-        ..tx_tester.tx,
-        mint: from_minted_value(tx_tester.tx.mint)
-          |> merge(negate(from_asset(policy_id, token_name, quantity)))
-          |> to_minted_value(),
-      },
-    }
-  }
-}
-
 pub fn ref_tx_in(
   tx_tester: TxTester,
   condition: Bool,
