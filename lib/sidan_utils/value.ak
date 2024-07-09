@@ -41,3 +41,10 @@ pub fn value_geq(greater: Value, smaller: Value) -> Bool {
     fn(token) { quantity_of(greater, token.1st, token.2nd) >= token.3rd },
   )
 }
+
+pub fn value_policy_info(
+  value: Value,
+  policy: ByteArray,
+) -> Option<(ByteArray, ByteArray, Int)> {
+  list.find(flatten(value), fn(t) { t.1st == policy })
+}
