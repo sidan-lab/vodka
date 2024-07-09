@@ -7,8 +7,7 @@ use aiken/transaction.{
 }
 use aiken/transaction/credential.{Address}
 use aiken/transaction/value.{
-  Value, add, from_asset, from_minted_value, merge, negate, to_minted_value,
-  zero,
+  Value, add, from_minted_value, to_minted_value, zero,
 }
 use sidan_placeholder/address.{mock_script_address}
 use sidan_placeholder/output_reference.{mock_utxo_ref}
