@@ -10,7 +10,7 @@ use sidan_placeholder/address.{mock_script_address}
 use sidan_placeholder/output_reference.{mock_utxo_ref}
 use sidan_placeholder/outputs.{mock_pub_key_output, mock_script_output}
 use sidan_placeholder/transaction.{
-  add_extra_signatory, add_input, add_mint, add_output, add_refernece_input,
+  add_extra_signatory, add_input, add_mint, add_output, add_reference_input,
   add_withdrawal,
 } as sidan_transaction
 use sidan_placeholder/validity_range.{mock_interval}
@@ -189,7 +189,7 @@ pub fn ref_tx_in(
         TxTester {
           ..tx_tester,
           queue_ref_input: queue_ref_input,
-          tx: tx_tester.tx |> add_refernece_input(True, input),
+          tx: tx_tester.tx |> add_reference_input(True, input),
         }
       None -> TxTester { ..tx_tester, queue_ref_input: queue_ref_input }
     }
@@ -325,7 +325,7 @@ pub fn complete(tx_tester: TxTester) -> Transaction {
     }
   let tx =
     when tx_tester.queue_ref_input is {
-      Some(input) -> tx |> add_refernece_input(True, input)
+      Some(input) -> tx |> add_reference_input(True, input)
       None -> tx
     }
   tx

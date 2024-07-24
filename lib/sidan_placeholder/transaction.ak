@@ -19,7 +19,7 @@ pub fn add_input(tx: Transaction, condition: Bool, input: Input) -> Transaction 
   }
 }
 
-pub fn add_refernece_input(
+pub fn add_reference_input(
   tx: Transaction,
   condition: Bool,
   input: Input,

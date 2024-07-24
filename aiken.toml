@@ -1,5 +1,5 @@
 name = "sidan-lab/aiken-utils"
-version = "0.1.2-beta"
+version = "0.1.6-beta"
 license = "Apache-2.0"
 description = "Aiken utils for project 'sidan-lab/aiken-utils"
 
