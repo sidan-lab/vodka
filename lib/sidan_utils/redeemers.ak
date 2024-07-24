@@ -1,9 +1,10 @@
 use aiken/bytearray
 use aiken/pairs
 use aiken/transaction.{
-  Input, OutputReference, Redeemer, ScriptPurpose, Spend, find_input,
+  Input, OutputReference, Redeemer, ScriptPurpose, Spend, WithdrawFrom,
+  find_input,
 }
-use aiken/transaction/credential.{Address}
+use aiken/transaction/credential.{Address, Inline, ScriptCredential}
 
 pub fn redeemer_from(
   redeemers: Pairs<ScriptPurpose, Redeemer>,
@@ -18,6 +19,16 @@ pub fn redeemer_from(
   } else {
     None
   }
+}
+
+pub fn withdrawal_redeemer(
+  redeemers: Pairs<ScriptPurpose, Redeemer>,
+  withdrawal_script_hash: ByteArray,
+) -> Option<Data> {
+  redeemers
+    |> pairs.get_first(
+        WithdrawFrom(Inline(ScriptCredential(withdrawal_script_hash))),
+      )
 }
 
 pub fn compare_output_reference(x, y) {
