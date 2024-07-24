@@ -1,17 +1,17 @@
 use aiken/bytearray
-use aiken/dict.{Dict}
+use aiken/pairs
 use aiken/transaction.{
   Input, OutputReference, Redeemer, ScriptPurpose, Spend, find_input,
 }
 use aiken/transaction/credential.{Address}
 
 pub fn redeemer_from(
-  redeemers: Dict<ScriptPurpose, Redeemer>,
+  redeemers: Pairs<ScriptPurpose, Redeemer>,
   inputs: List<Input>,
   output_reference: OutputReference,
   input_address: Address,
 ) -> Option<Data> {
-  expect Some(redeemer) = dict.get(redeemers, Spend(output_reference))
+  expect Some(redeemer) = redeemers |> pairs.get_first(Spend(output_reference))
   expect Some(input) = find_input(inputs, output_reference)
   if input.output.address == input_address {
     Some(redeemer)

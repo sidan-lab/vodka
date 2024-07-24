@@ -1,5 +1,26 @@
 # Changelog
 
+## v1.9.0 - 2024-05-24
+
+### Added
+
+- A new module [`aiken/pairs`](https://aiken-lang.github.io/stdlib/aiken/pairs.html) to work with associative lists (a.k.a. `Pairs`).
+
+### Changed
+
+- **BREAKING-CHANGE**<br/>
+  Specialized all `Dict`'s key to `ByteArray`, and thus remove the need for passing an extra comparison function in many functions. `Dict` are however still specialized with a phantom type for keys.
+
+- **BREAKING-CHANGE**<br/>
+  Few functions from `Dict` have been renamed for consistency:
+  - `from_list` -> `from_pairs`
+  - `from_ascending_list` -> `from_ascending_pairs`
+  - `to_list` -> `to_pairs`
+
+### Removed
+
+N/A
+
 ## v1.8.0 - 2024-03-28
 
 ### Added

@@ -5,7 +5,7 @@ use aiken/transaction.{
   InlineDatum, Input, Output, OutputReference, Transaction, TransactionId,
   placeholder,
 }
-use aiken/transaction/credential.{Address}
+use aiken/transaction/credential.{Address, Inline, ScriptCredential}
 use aiken/transaction/value.{
   Value, add, from_minted_value, to_minted_value, zero,
 }
@@ -291,7 +291,7 @@ pub fn invalid_hereafter(
   }
 }
 
-pub fn signing_key(
+pub fn required_signer_hash(
   tx_tester: TxTester,
   condition: Bool,
   key: ByteArray,
@@ -305,6 +305,28 @@ pub fn signing_key(
       tx: Transaction {
         ..tx,
         extra_signatories: list.push(tx.extra_signatories, key),
+      },
+    }
+  }
+}
+
+pub fn script_withdrawal(
+  tx_tester: TxTester,
+  condition: Bool,
+  script_hash: ByteArray,
+  withdrawal_amount: Int,
+) -> TxTester {
+  if !condition {
+    tx_tester
+  } else {
+    TxTester {
+      ..tx_tester,
+      tx: Transaction {
+        ..tx_tester.tx,
+        withdrawals: tx_tester.tx.withdrawals
+          |> list.push(
+              Pair(Inline(ScriptCredential(script_hash)), withdrawal_amount),
+            ),
       },
     }
   }
