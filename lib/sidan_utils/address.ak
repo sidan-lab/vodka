@@ -1,6 +1,7 @@
 use aiken/bytearray
+use aiken/hash.{Blake2b_224, Hash}
 use aiken/transaction/credential.{
-  Address, ScriptCredential, VerificationKeyCredential,
+  Address, Script, ScriptCredential, VerificationKey, VerificationKeyCredential,
 }
 
 pub fn compare_script_address(x: Address, y: Address) -> Ordering {
@@ -23,19 +24,27 @@ pub fn compare_address(x: Address, y: Address) -> Ordering {
   }
 }
 
-pub fn address_payment_key(address: Address) -> ByteArray {
+pub fn address_payment_key(address: Address) -> Hash<Blake2b_224, ByteArray> {
   when address.payment_credential is {
     ScriptCredential(hash) -> hash
     VerificationKeyCredential(key_hash) -> key_hash
   }
 }
 
-pub fn address_pub_key(address: Address) -> ByteArray {
-  expect VerificationKeyCredential(key_hash) = address.payment_credential
-  key_hash
+pub fn address_pub_key(
+  address: Address,
+) -> Option<Hash<Blake2b_224, VerificationKey>> {
+  when address.payment_credential is {
+    VerificationKeyCredential(key_hash) -> Some(key_hash)
+    _ -> None
+  }
 }
 
-pub fn address_script_hash(address: Address) -> ByteArray {
-  expect ScriptCredential(script_hash) = address.payment_credential
-  script_hash
+pub fn address_script_hash(
+  address: Address,
+) -> Option<Hash<Blake2b_224, Script>> {
+  when address.payment_credential is {
+    ScriptCredential(script_hash) -> Some(script_hash)
+    _ -> None
+  }
 }
