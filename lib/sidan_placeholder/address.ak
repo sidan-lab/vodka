@@ -9,7 +9,10 @@ pub fn mock_verfication_key_credential(variation: Int) -> Credential {
   VerificationKeyCredential(mock_pub_key_hex(variation))
 }
 
-pub fn mock_pub_key_address(variation: Int, stake_credential) -> Address {
+pub fn mock_pub_key_address(
+  variation: Int,
+  stake_credential: Option<StakeCredential>,
+) -> Address {
   Address {
     payment_credential: mock_verfication_key_credential(variation),
     stake_credential,
