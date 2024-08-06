@@ -147,8 +147,8 @@ pub fn tx_out_inline_datum(
 
 pub fn mint(
   tx_tester: TxTester,
-  quantity: Int,
   condition: Bool,
+  quantity: Int,
   policy_id: ByteArray,
   token_name: ByteArray,
 ) -> TxTester {
