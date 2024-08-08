@@ -63,8 +63,6 @@ await txBuilder
   .complete();
 ```
 
-You can build
-
 ## Start mixing
 
 Simply run
