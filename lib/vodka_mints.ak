@@ -3,10 +3,11 @@ use aiken/transaction/value.{
   AssetName, MintedValue, PolicyId, flatten, from_minted_value,
 }
 
+/// Check if a certain PolicyId is burning only if exists in the minted value.
 pub fn check_policy_only_burn(mint: MintedValue, policy: PolicyId) -> Bool {
-  let burn_value = flatten(from_minted_value(mint))
+  let mint_value = flatten(from_minted_value(mint))
   list.all(
-    burn_value,
+    mint_value,
     fn(x) {
       if x.1st == policy {
         x.3rd < 0
@@ -17,6 +18,7 @@ pub fn check_policy_only_burn(mint: MintedValue, policy: PolicyId) -> Bool {
   )
 }
 
+/// Check if the minted value contains only one distinct asset with particular PolicyId.
 pub fn only_minted_token(
   mint: MintedValue,
   policy: PolicyId,
@@ -30,6 +32,7 @@ pub fn only_minted_token(
   }
 }
 
+/// Check if the minted value contains a token with particular PolicyId, AssetName, and quantity.
 pub fn token_minted(
   mint: MintedValue,
   policy: PolicyId,

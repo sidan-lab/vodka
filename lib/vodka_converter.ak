@@ -1,5 +1,6 @@
 use aiken/bytearray
 
+/// Convert an integer to a "stringify" ByteArray value
 pub fn convert_int_to_bytes(i: Int) -> ByteArray {
   convert_int_to_bytes_go(i, get_number_digit(i))
 }
@@ -15,6 +16,7 @@ fn convert_int_to_bytes_go(newInt: Int, digit: Int) -> ByteArray {
   }
 }
 
+/// Get the number of digits in an integer
 pub fn get_number_digit(i: Int) -> Int {
   go_get_number_digit(i, 1)
 }

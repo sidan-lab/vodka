@@ -1,6 +1,7 @@
 use aiken/interval.{Finite, IntervalBound}
 use aiken/transaction.{ValidityRange}
 
+/// Check if the validity range is after the required timestamp.
 pub fn valid_after(
   validity_range: ValidityRange,
   required_timestamp: Int,
@@ -13,6 +14,7 @@ pub fn valid_after(
   }
 }
 
+/// Check if the validity range is before the required timestamp.
 pub fn valid_before(
   validity_range: ValidityRange,
   required_timestamp: Int,

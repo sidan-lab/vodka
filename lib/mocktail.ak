@@ -19,10 +19,6 @@ use aiken/transaction/value.{
 use mocktail/virgin_address.{mock_script_address}
 use mocktail/virgin_output_reference.{mock_utxo_ref}
 use mocktail/virgin_outputs.{mock_pub_key_output, mock_script_output}
-use mocktail/virgin_transaction.{
-  add_extra_signatory, add_input, add_mint, add_output, add_reference_input,
-  add_withdrawal,
-} as sidan_transaction
 use mocktail/virgin_validity_range.{mock_interval}
 
 pub type MocktailTx {

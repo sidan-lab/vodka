@@ -3,6 +3,11 @@ use aiken/transaction.{InlineDatum, Input}
 use aiken/transaction/credential.{Address}
 use aiken/transaction/value.{AssetName, PolicyId, flatten, quantity_of}
 
+pub fn output_inline_datum(input: Input) {
+  expect InlineDatum(raw_datum) = input.output.datum
+  raw_datum
+}
+
 pub fn only_input_datum_with(
   inputs: List<Input>,
   policy: PolicyId,
@@ -13,8 +18,7 @@ pub fn only_input_datum_with(
       inputs,
       fn(input) { quantity_of(input.output.value, policy, name) == 1 },
     )
-  expect InlineDatum(raw_datum) = input.output.datum
-  raw_datum
+  output_inline_datum(input)
 }
 
 pub fn inputs_at(inputs: List<Input>, address: Address) -> List<Input> {

@@ -2,13 +2,17 @@ use aiken/transaction/credential.{
   Address, Credential, ScriptCredential, StakeCredential,
   VerificationKeyCredential,
 }
-use mocktail/virgin_key_hex.{mock_pub_key_hex, mock_script_hash_hex}
+use mocktail/virgin_key_hex.{mock_pub_key_hash, mock_script_hash}
 
-// Pub Key Addresses
+/// Mock a pub key credential
+/// `variation` same the same index as `mock_pub_key_hash`
 pub fn mock_verfication_key_credential(variation: Int) -> Credential {
-  VerificationKeyCredential(mock_pub_key_hex(variation))
+  VerificationKeyCredential(mock_pub_key_hash(variation))
 }
 
+/// Mock a pub key address
+/// `variation` same the same index as `mock_pub_key_hash`
+/// `stake_credential` is optional
 pub fn mock_pub_key_address(
   variation: Int,
   stake_credential: Option<StakeCredential>,
@@ -19,11 +23,15 @@ pub fn mock_pub_key_address(
   }
 }
 
-// Script Addresses
+/// Mock a script credential
+/// `variation` same the same index as `mock_script_hash`
 pub fn mock_script_credential(variation: Int) -> Credential {
-  ScriptCredential(mock_script_hash_hex(variation))
+  ScriptCredential(mock_script_hash(variation))
 }
 
+/// Mock a script address
+/// `variation` same the same index as `mock_script_hash`
+/// `stake_credential` is optional
 pub fn mock_script_address(
   variation: Int,
   stake_credential: Option<StakeCredential>,
