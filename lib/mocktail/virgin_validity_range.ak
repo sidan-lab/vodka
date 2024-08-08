@@ -3,6 +3,7 @@ use aiken/interval.{
 }
 use aiken/transaction.{ValidityRange}
 
+/// Mock a validity range with the given lower and upper bounds.
 pub fn mock_interval(lower: Option<Int>, upper: Option<Int>) -> ValidityRange {
   let lower_bound =
     when lower is {

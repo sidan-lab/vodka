@@ -2,7 +2,8 @@ use aiken/hash.{Blake2b_224, Hash}
 use aiken/transaction/credential.{Script, VerificationKey}
 use aiken/transaction/value.{PolicyId}
 
-pub fn mock_key_hex(variation: Int) -> ByteArray {
+/// Mock a key in hexadecimal format
+pub fn mock_key_hash(variation: Int) -> ByteArray {
   when variation is {
     1 -> #"a2c20c77887ace1cd986193e4e75babd8993cfd56995cd5cfce609c2"
     2 -> #"e2cfca46ecdf7feb8a3a7f957ead86b88c156f3fdd9607bcb44eb8f5"
@@ -67,78 +68,93 @@ pub fn mock_key_hex(variation: Int) -> ByteArray {
   }
 }
 
+/// Mock a PolicyID
+/// The variation is used to distinguish between different PolicyIDs
+/// Use this but not other `mock_key_hash` functions to avoid hash collision
 pub fn mock_policy_id(variation: Int) -> PolicyId {
   when variation is {
-    1 -> mock_key_hex(1)
-    2 -> mock_key_hex(2)
-    3 -> mock_key_hex(3)
-    4 -> mock_key_hex(4)
-    _ -> mock_key_hex(5)
+    1 -> mock_key_hash(1)
+    2 -> mock_key_hash(2)
+    3 -> mock_key_hash(3)
+    4 -> mock_key_hash(4)
+    _ -> mock_key_hash(5)
   }
 }
 
-pub fn mock_pub_key_hex(variation: Int) -> Hash<Blake2b_224, VerificationKey> {
+/// Mock a public key hash
+/// The variation is used to distinguish between different public keys
+/// Use this but not other `mock_key_hash` functions to avoid hash collision
+pub fn mock_pub_key_hash(variation: Int) -> Hash<Blake2b_224, VerificationKey> {
   when variation is {
-    1 -> mock_key_hex(11)
-    2 -> mock_key_hex(12)
-    3 -> mock_key_hex(13)
-    4 -> mock_key_hex(14)
-    _ -> mock_key_hex(15)
+    1 -> mock_key_hash(11)
+    2 -> mock_key_hash(12)
+    3 -> mock_key_hash(13)
+    4 -> mock_key_hash(14)
+    _ -> mock_key_hash(15)
   }
 }
 
-pub fn mock_stake_key_hex(variation: Int) -> Hash<Blake2b_224, VerificationKey> {
+/// Mock a script hash
+/// The variation is used to distinguish between different scripts
+/// Use this but not other `mock_key_hash` functions to avoid hash collision
+pub fn mock_script_hash(variation: Int) -> Hash<Blake2b_224, Script> {
   when variation is {
-    1 -> mock_key_hex(21)
-    2 -> mock_key_hex(22)
-    3 -> mock_key_hex(23)
-    4 -> mock_key_hex(24)
-    _ -> mock_key_hex(25)
+    1 -> mock_key_hash(101)
+    2 -> mock_key_hash(102)
+    3 -> mock_key_hash(103)
+    4 -> mock_key_hash(104)
+    5 -> mock_key_hash(105)
+    6 -> mock_key_hash(106)
+    7 -> mock_key_hash(107)
+    8 -> mock_key_hash(108)
+    9 -> mock_key_hash(109)
+    10 -> mock_key_hash(109)
+    11 -> mock_key_hash(111)
+    12 -> mock_key_hash(112)
+    13 -> mock_key_hash(113)
+    14 -> mock_key_hash(114)
+    15 -> mock_key_hash(115)
+    16 -> mock_key_hash(116)
+    17 -> mock_key_hash(117)
+    18 -> mock_key_hash(118)
+    19 -> mock_key_hash(119)
+    20 -> mock_key_hash(120)
+    21 -> mock_key_hash(121)
+    22 -> mock_key_hash(122)
+    23 -> mock_key_hash(123)
+    24 -> mock_key_hash(124)
+    25 -> mock_key_hash(125)
+    26 -> mock_key_hash(126)
+    27 -> mock_key_hash(127)
+    28 -> mock_key_hash(128)
+    29 -> mock_key_hash(129)
+    30 -> mock_key_hash(130)
+    _ -> mock_key_hash(100)
   }
 }
 
-pub fn mock_script_stake_key_hex(variation: Int) -> Hash<Blake2b_224, Script> {
+/// Mock a stake key hash
+/// The variation is used to distinguish between different stake keys
+/// Use this but not other `mock_key_hash` functions to avoid hash collision
+pub fn mock_stake_key_hash(variation: Int) -> Hash<Blake2b_224, VerificationKey> {
   when variation is {
-    1 -> mock_key_hex(31)
-    2 -> mock_key_hex(32)
-    3 -> mock_key_hex(33)
-    4 -> mock_key_hex(34)
-    _ -> mock_key_hex(35)
+    1 -> mock_key_hash(21)
+    2 -> mock_key_hash(22)
+    3 -> mock_key_hash(23)
+    4 -> mock_key_hash(24)
+    _ -> mock_key_hash(25)
   }
 }
 
-pub fn mock_script_hash_hex(variation: Int) -> Hash<Blake2b_224, Script> {
+/// Mock a script stake key hash
+/// The variation is used to distinguish between different scripts
+/// Use this but not other `mock_key_hash` functions to avoid hash collision
+pub fn mock_script_stake_key_hash(variation: Int) -> Hash<Blake2b_224, Script> {
   when variation is {
-    1 -> mock_key_hex(101)
-    2 -> mock_key_hex(102)
-    3 -> mock_key_hex(103)
-    4 -> mock_key_hex(104)
-    5 -> mock_key_hex(105)
-    6 -> mock_key_hex(106)
-    7 -> mock_key_hex(107)
-    8 -> mock_key_hex(108)
-    9 -> mock_key_hex(109)
-    10 -> mock_key_hex(109)
-    11 -> mock_key_hex(111)
-    12 -> mock_key_hex(112)
-    13 -> mock_key_hex(113)
-    14 -> mock_key_hex(114)
-    15 -> mock_key_hex(115)
-    16 -> mock_key_hex(116)
-    17 -> mock_key_hex(117)
-    18 -> mock_key_hex(118)
-    19 -> mock_key_hex(119)
-    20 -> mock_key_hex(120)
-    21 -> mock_key_hex(121)
-    22 -> mock_key_hex(122)
-    23 -> mock_key_hex(123)
-    24 -> mock_key_hex(124)
-    25 -> mock_key_hex(125)
-    26 -> mock_key_hex(126)
-    27 -> mock_key_hex(127)
-    28 -> mock_key_hex(128)
-    29 -> mock_key_hex(129)
-    30 -> mock_key_hex(130)
-    _ -> mock_key_hex(100)
+    1 -> mock_key_hash(31)
+    2 -> mock_key_hash(32)
+    3 -> mock_key_hash(33)
+    4 -> mock_key_hash(34)
+    _ -> mock_key_hash(35)
   }
 }

@@ -3,10 +3,12 @@ use aiken/transaction.{Input, Output}
 use aiken/transaction/credential.{Address}
 use aiken/transaction/value.{Value, flatten, merge, quantity_of, zero}
 
+/// Calulate the length of a value
 pub fn value_length(value: Value) -> Int {
   list.length(flatten(value))
 }
 
+/// Get the value send to a particular address in a list of outputs
 pub fn get_all_value_to(outputs: List<Output>, address: Address) -> Value {
   list.foldr(
     outputs,
@@ -21,6 +23,7 @@ pub fn get_all_value_to(outputs: List<Output>, address: Address) -> Value {
   )
 }
 
+/// Get the value coming from a particular address in a list of inputs
 pub fn get_all_value_from(inputs: List<Input>, address: Address) -> Value {
   list.foldr(
     inputs,
@@ -35,6 +38,7 @@ pub fn get_all_value_from(inputs: List<Input>, address: Address) -> Value {
   )
 }
 
+/// Check if the first value provided is greater than or equal to the second value
 pub fn value_geq(greater: Value, smaller: Value) -> Bool {
   list.all(
     flatten(smaller),
@@ -42,6 +46,7 @@ pub fn value_geq(greater: Value, smaller: Value) -> Bool {
   )
 }
 
+/// Obtain the information (i.e. flattened value) of a policy in a value 
 pub fn value_policy_info(
   value: Value,
   policy: ByteArray,

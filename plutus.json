@@ -1,0 +1,14 @@
+{
+  "preamble": {
+    "title": "sidan-lab/vodka",
+    "description": "Aiken utils for project 'sidan-lab/vodka",
+    "version": "0.0.1-beta",
+    "plutusVersion": "v2",
+    "compiler": {
+      "name": "Aiken",
+      "version": "v1.0.29-alpha+unknown"
+    },
+    "license": "Apache-2.0"
+  },
+  "validators": []
+}

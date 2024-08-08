@@ -4,12 +4,14 @@ use aiken/transaction/credential.{
   Address, Script, ScriptCredential, VerificationKey, VerificationKeyCredential,
 }
 
+/// Compare two script addresses 
 pub fn compare_script_address(x: Address, y: Address) -> Ordering {
   expect ScriptCredential(x_hash) = x.payment_credential
   expect ScriptCredential(y_hash) = y.payment_credential
   bytearray.compare(x_hash, y_hash)
 }
 
+/// Compare two addresses
 pub fn compare_address(x: Address, y: Address) -> Ordering {
   let x_hash = x.payment_credential
   let y_hash = y.payment_credential
@@ -24,6 +26,7 @@ pub fn compare_address(x: Address, y: Address) -> Ordering {
   }
 }
 
+/// Obtain the payment key of an address, it can be either a script hash or a verification key
 pub fn address_payment_key(address: Address) -> Hash<Blake2b_224, ByteArray> {
   when address.payment_credential is {
     ScriptCredential(hash) -> hash
@@ -31,6 +34,7 @@ pub fn address_payment_key(address: Address) -> Hash<Blake2b_224, ByteArray> {
   }
 }
 
+/// Obtain the verification key of an address, None if it is a script address
 pub fn address_pub_key(
   address: Address,
 ) -> Option<Hash<Blake2b_224, VerificationKey>> {
@@ -40,6 +44,7 @@ pub fn address_pub_key(
   }
 }
 
+/// Obtain the script hash of an address, None if it is a verification key address
 pub fn address_script_hash(
   address: Address,
 ) -> Option<Hash<Blake2b_224, Script>> {

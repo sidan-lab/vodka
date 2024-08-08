@@ -11,6 +11,7 @@ pub fn mock_tx_hash(variation: Int) -> Hash<Blake2b_256, Transaction> {
   }
 }
 
+/// Mock an output reference
 pub fn mock_utxo_ref(variation: Int, output_index: Int) -> OutputReference {
   OutputReference {
     transaction_id: TransactionId(mock_tx_hash(variation)),

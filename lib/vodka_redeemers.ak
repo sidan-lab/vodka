@@ -6,6 +6,7 @@ use aiken/transaction.{
 }
 use aiken/transaction/credential.{Address, Inline, ScriptCredential}
 
+/// Obtain the redeemer for a given output reference and address
 pub fn redeemer_from(
   redeemers: Pairs<ScriptPurpose, Redeemer>,
   inputs: List<Input>,
@@ -21,6 +22,7 @@ pub fn redeemer_from(
   }
 }
 
+/// Obtain the first redeemer for a given withdrawal script hash
 pub fn withdrawal_redeemer(
   redeemers: Pairs<ScriptPurpose, Redeemer>,
   withdrawal_script_hash: ByteArray,
@@ -31,6 +33,7 @@ pub fn withdrawal_redeemer(
       )
 }
 
+/// Compare the output reference of two spend transactions
 pub fn compare_output_reference(x, y) {
   expect Spend(out_ref_x) = x
   expect Spend(out_ref_y) = y
