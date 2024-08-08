@@ -2,7 +2,7 @@ use aiken/transaction/credential.{
   Address, Credential, ScriptCredential, StakeCredential,
   VerificationKeyCredential,
 }
-use sidan_placeholder/key_hex.{mock_pub_key_hex, mock_script_hash_hex}
+use mocktail/virgin_key_hex.{mock_pub_key_hex, mock_script_hash_hex}
 
 // Pub Key Addresses
 pub fn mock_verfication_key_credential(variation: Int) -> Credential {

@@ -1,4 +1,4 @@
-# sidan-lab/aiken-utils
+# sidan-lab/vodka
 
 This package provides useful utilities in 2 direction
 
@@ -10,14 +10,14 @@ This package provides useful utilities in 2 direction
 Simply run
 
 ```sh
-aiken add sidan-lab/aiken-utils --version 0.1.8-beta
+aiken add sidan-lab/vodka --version 0.1.8-beta
 ```
 
 or putting the below in you `aiken.toml`
 
 ```toml
 [[dependencies]]
-name = "sidan-lab/aiken-utils"
+name = "sidan-lab/vodka"
 version = "0.1.8-beta"
 source = "github"
 ```

@@ -6,14 +6,14 @@ use aiken/transaction.{
 }
 use aiken/transaction/credential.{Address, Inline, ScriptCredential}
 use aiken/transaction/value.{Value, from_asset, zero}
-use sidan_placeholder/address.{mock_script_address}
-use sidan_placeholder/output_reference.{mock_utxo_ref}
-use sidan_placeholder/outputs.{mock_pub_key_output, mock_script_output}
-use sidan_placeholder/transaction.{
+use mocktail/virgin_address.{mock_script_address}
+use mocktail/virgin_output_reference.{mock_utxo_ref}
+use mocktail/virgin_outputs.{mock_pub_key_output, mock_script_output}
+use mocktail/virgin_transaction.{
   add_extra_signatory, add_input, add_mint, add_output, add_reference_input,
   add_withdrawal,
 } as sidan_transaction
-use sidan_placeholder/validity_range.{mock_interval}
+use mocktail/virgin_validity_range.{mock_interval}
 
 pub type TxTester {
   tx: Transaction,
