@@ -1,0 +1,21 @@
+name: Tests
+
+on:
+  push:
+    branches: ["main", "rebrand-vodka"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: aiken-lang/setup-aiken@v0.1.0
+        with:
+          version: v1.0.29-alpha
+
+      - run: aiken fmt --check
+      - run: aiken check -D
+      - run: aiken docs
