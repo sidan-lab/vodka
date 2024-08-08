@@ -1,0 +1,79 @@
+name: Auto Release
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: aiken-lang/setup-aiken@v1
+        with:
+          version: "v1.0.29-alpha"
+      - run: aiken fmt --check
+      - run: aiken check -D
+      - run: aiken docs
+
+  check-version:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    outputs:
+      version-updated: ${{ steps.compare-versions.outputs.version-updated }}
+      version: ${{ steps.post-merge-version.outputs.post-merge-version }}
+    steps:
+      - name: Checkout main branch at commit before merge
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+
+      - name: Get package version from main branch before merge
+        id: pre-merge-version
+        run: |
+          PRE_MERGE_VERSION=$(grep -m 1 '^version = ' aiken.toml | sed 's/version = "\(.*\)"/\1/')
+          echo "pre_merge_version=$PRE_MERGE_VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout main branch at commit after merge
+        uses: actions/checkout@v4
+        with:
+          ref: "main"
+
+      - name: Get package version from main branch after merge
+        id: post-merge-version
+        run: |
+          POST_MERGE_VERSION=$(grep -m 1 '^version = ' aiken.toml | sed 's/version = "\(.*\)"/\1/')
+          echo "post_merge_version=$POST_MERGE_VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Compare versions
+        id: compare-versions
+        run: |
+          if [[ "${{ steps.pre-merge-version.outputs.pre_merge_version }}" != "${{ steps.post-merge-version.outputs.post_merge_version }}" ]]; then
+              echo "version-updated=true" >> "$GITHUB_OUTPUT"
+              echo "version=${{ steps.post-merge-version.outputs.post_merge_version }}" >> "$GITHUB_OUTPUT"
+          else
+              echo "version-updated=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  release:
+    needs: [build, check-version]
+    if: needs.check-version.outputs.version-updated == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ needs.check-version.outputs.version }}
+          release_name: ${{ needs.check-version.outputs.version }}
+          draft: false
+          prerelease: true
