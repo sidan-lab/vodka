@@ -1,6 +1,8 @@
 # vodka
 
-This package provides useful utilities in 2 direction
+## Vodka is pure and simple
+
+## Vodka
 
 1. Cocktail - Validating utils in writing on-chain code in aiken
 2. Mocktail - Unit test utils for easy building mock value for unit test
