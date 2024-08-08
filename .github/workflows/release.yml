@@ -25,7 +25,7 @@ jobs:
     if: github.event.pull_request.merged == true
     outputs:
       version-updated: ${{ steps.compare-versions.outputs.version-updated }}
-      version: ${{ steps.post-merge-version.outputs.post-merge-version }}
+      version: ${{ steps.compare-versions.outputs.version }}
     steps:
       - name: Checkout main branch at commit before merge
         uses: actions/checkout@v4
