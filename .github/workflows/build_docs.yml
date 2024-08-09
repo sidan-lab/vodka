@@ -1,5 +1,5 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploy static inline documentation to Pages
+name: Build CI
 
 on:
   # Runs on pushes targeting the default branch

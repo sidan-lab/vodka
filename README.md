@@ -1,6 +1,14 @@
-# Vodka
+<div align="center">
+  <hr />
+    <h2 align="center" style="border-bottom: none"><img style="position: relative; top: 0.25rem;" src="./assets/logo.png" alt="Aiken" height="30" /> Vodka - Library for Aiken Development</h2>
 
-Vodka is a library build for Aiken development. It offers
+[![Licence](https://img.shields.io/github/license/sidan-lab/vodka)](https://github.com/sidan-lab/vodka/blob/main/LICENSE)
+[![Continuous Integration](https://github.com/sidan-lab/vodka/actions/workflows/build_docs.yml/badge.svg?branch=main)](https://github.com/sidan-lab/vodka/actions/workflows/build_docs.yml)
+
+  <hr/>
+</div>
+
+Vodka is a library build for [Aiken](https://aiken-lang.org/) development. It offers
 
 1. [Cocktail](https://sidan-lab.github.io/vodka/cocktail.html) - Validating utils in writing on-chain code in aiken
 2. [Mocktail](https://sidan-lab.github.io/vodka/mocktail.html) - Unit test utils for easy building mock value for unit test
@@ -97,3 +105,5 @@ source = "github"
 ## Documentation
 
 Please refer to the [hosted documentation](https://sidan-lab.github.io/vodka/).
+
+![Alt](https://repobeats.axiom.co/api/embed/54410212b620c3299be792bde8965a3371348895.svg "Repobeats analytics image")
