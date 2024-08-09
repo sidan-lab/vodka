@@ -1,9 +1,10 @@
 <div align="center">
   <hr />
-    <h2 align="center" style="border-bottom: none"><img style="position: relative; top: 0.25rem;" src="./assets/logo.png" alt="Aiken" height="30" /> Vodka - Library for Aiken Development</h2>
+    <h2 align="center" style="border-bottom: none"><img style="position: relative; top: 0.25rem;" src="https://raw.githubusercontent.com/sidan-lab/brand_assets/main/sidan__square.png" alt="Aiken" height="30" /> Vodka - Library for Aiken Development</h2>
 
 [![Licence](https://img.shields.io/github/license/sidan-lab/vodka)](https://github.com/sidan-lab/vodka/blob/main/LICENSE)
 [![Continuous Integration](https://github.com/sidan-lab/vodka/actions/workflows/build_docs.yml/badge.svg?branch=main)](https://github.com/sidan-lab/vodka/actions/workflows/build_docs.yml)
+[![Twitter/X](https://img.shields.io/badge/Follow%20us-@sidan__lab-blue?logo=x)](https://x.com/sidan_lab)
 
   <hr/>
 </div>
