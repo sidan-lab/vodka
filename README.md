@@ -2,8 +2,8 @@
 
 Vodka is a library build for Aiken development. It offers
 
-1. Cocktail - Validating utils in writing on-chain code in aiken
-2. Mocktail - Unit test utils for easy building mock value for unit test
+1. [Cocktail](https://sidan-lab.github.io/vodka/cocktail.html) - Validating utils in writing on-chain code in aiken
+2. [Mocktail](https://sidan-lab.github.io/vodka/mocktail.html) - Unit test utils for easy building mock value for unit test
 
 ## Vodka is pure and simple
 
@@ -27,6 +27,20 @@ Checking signature with:
 ```rs
 key_signed(extra_signatories, key_hash_required)
 ```
+
+All onchain utility functions are grouped with a naming convention of `vodka_<type>`:
+
+| Type                                 | Naming Convention                         |
+| ------------------------------------ | ----------------------------------------- |
+| Address                              | `vodka_address.{<the_util_fn>}`           |
+| Value                                | `vodka_value.{<the_util_fn>}`             |
+| transaction.extra_signatories        | `vodka_extra_signatories.{<the_util_fn>}` |
+| transaction.inputs                   | `vodka_inputs.{<the_util_fn>}`            |
+| transaction.mints                    | `vodka_mints.{<the_util_fn>}`             |
+| transaction.outputs                  | `vodka_outputs.{<the_util_fn>}`           |
+| transaction.redeemers                | `vodka_redeemers.{<the_util_fn>}`         |
+| transaction.validity_range           | `vodka_validity_range.{<the_util_fn>}`    |
+| ByteArray and Int conversion & utils | `vodka_converter.{<the_util_fn>}`         |
 
 ## Taste it before vodka cocktail, mocktail can be mixed, blended and Mesh
 

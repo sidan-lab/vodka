@@ -4,12 +4,18 @@ use aiken/transaction/credential.{Address}
 use aiken/transaction/value.{AssetName, PolicyId, flatten, quantity_of}
 
 /// Extracts the inline datum from an input.
+/// ```aiken
+/// expect inline_datum: MyDatumType = output_inline_datum(input);
+/// ```
 pub fn output_inline_datum(input: Input) {
   expect InlineDatum(raw_datum) = input.output.datum
   raw_datum
 }
 
 /// Extract the inline datum by locating the first input in a list of inputs by Address and PolicyId.
+/// ```aiken
+/// expect inline_datum: MyDatumType = only_input_datum_with(inputs, policy, name);
+/// ```
 pub fn only_input_datum_with(
   inputs: List<Input>,
   policy: PolicyId,
@@ -24,11 +30,17 @@ pub fn only_input_datum_with(
 }
 
 /// Filters inputs by Address.
+/// ```aiken
+/// let filtered_inputs = inputs_at(inputs, address);
+/// ```
 pub fn inputs_at(inputs: List<Input>, address: Address) -> List<Input> {
   list.filter(inputs, fn(input) { input.output.address == address })
 }
 
 /// Filters inputs by PolicyId and AssetName.
+/// ```aiken
+/// let filtered_inputs = inputs_with(inputs, policy, name);
+/// ```
 pub fn inputs_with(
   inputs: List<Input>,
   policy: PolicyId,
@@ -41,6 +53,9 @@ pub fn inputs_with(
 }
 
 /// Filters inputs by token policy.
+/// ```aiken
+/// let filtered_inputs = inputs_with_policy(inputs, policy);
+/// ```
 pub fn inputs_with_policy(inputs: List<Input>, policy: PolicyId) -> List<Input> {
   list.filter(
     inputs,
@@ -51,6 +66,9 @@ pub fn inputs_with_policy(inputs: List<Input>, policy: PolicyId) -> List<Input> 
 }
 
 /// Filters inputs by Address, PolicyId, and AssetName.
+/// ```aiken
+/// let filtered_inputs = inputs_at_with(inputs, address, policy, name);
+/// ```
 pub fn inputs_at_with(
   inputs: List<Input>,
   address: Address,
@@ -70,6 +88,9 @@ pub fn inputs_at_with(
 }
 
 /// Filters inputs by Address and PolicyId.
+/// ```aiken
+/// let filtered_inputs = inputs_at_with_policy(inputs, address, policy);
+/// ```
 pub fn inputs_at_with_policy(
   inputs: List<Input>,
   address: Address,
@@ -87,6 +108,9 @@ pub fn inputs_at_with_policy(
 }
 
 /// Calculate the total quantity of a token in a list of inputs.
+/// ```aiken
+/// let total_quantity = inputs_token_quantity(inputs, token);
+/// ```
 pub fn inputs_token_quantity(
   inputs: List<Input>,
   token: (PolicyId, AssetName),

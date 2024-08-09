@@ -4,18 +4,31 @@ use aiken/transaction/credential.{Address}
 use aiken/transaction/value.{AssetName, PolicyId, flatten, quantity_of}
 
 /// Extracts the inline datum from an output.
+/// ```aiken
+/// expect inline_datum: MyDatumType = output_inline_datum(output);
+/// ```
 pub fn output_inline_datum(output: Output) {
   expect InlineDatum(raw_datum) = output.datum
   raw_datum
 }
 
 /// Filters outputs by Address.
+/// ```aiken
+/// let filtered_outputs = outputs_at(outputs, address);
+/// ```
 pub fn outputs_at(outputs: List<Output>, address: Address) -> List<Output> {
   list.filter(outputs, fn(output) { output.address == address })
 }
 
 /// Filters outputs by PolicyId and AssetName.
-pub fn outputs_with(outputs: List<Output>, policy: PolicyId, name: AssetName) {
+/// ```aiken
+/// let filtered_outputs = outputs_with(outputs, policy, name);
+/// ```
+pub fn outputs_with(
+  outputs: List<Output>,
+  policy: PolicyId,
+  name: AssetName,
+) -> List<Output> {
   list.filter(
     outputs,
     fn(output) { quantity_of(output.value, policy, name) == 1 },
@@ -23,7 +36,13 @@ pub fn outputs_with(outputs: List<Output>, policy: PolicyId, name: AssetName) {
 }
 
 /// Filters outputs by token policy.
-pub fn outputs_with_policy(outputs: List<Output>, policy: PolicyId) {
+/// ```aiken
+/// let filtered_outputs = outputs_with_policy(outputs, policy);
+/// ```
+pub fn outputs_with_policy(
+  outputs: List<Output>,
+  policy: PolicyId,
+) -> List<Output> {
   list.filter(
     outputs,
     fn(output) {
@@ -33,6 +52,9 @@ pub fn outputs_with_policy(outputs: List<Output>, policy: PolicyId) {
 }
 
 /// Filters outputs by Address, PolicyId, and AssetName.
+/// ```aiken
+/// let filtered_outputs = outputs_at_with(outputs, address, policy, name);
+/// ```
 pub fn outputs_at_with(
   outputs: List<Output>,
   address: Address,
@@ -48,6 +70,9 @@ pub fn outputs_at_with(
 }
 
 /// Filters outputs by Address and PolicyId.
+/// ```aiken
+/// let filtered_outputs = outputs_at_with_policy(outputs, address, policy);
+/// ```
 pub fn outputs_at_with_policy(
   outputs: List<Output>,
   address: Address,

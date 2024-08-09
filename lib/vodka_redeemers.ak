@@ -7,6 +7,9 @@ use aiken/transaction.{
 use aiken/transaction/credential.{Address, Inline, ScriptCredential}
 
 /// Obtain the redeemer for a given output reference and address
+/// ```aiken
+/// expect Some(redeemer) = redeemer_from(redeemers, inputs, output_reference, input_address);
+/// ```
 pub fn redeemer_from(
   redeemers: Pairs<ScriptPurpose, Redeemer>,
   inputs: List<Input>,
@@ -23,6 +26,10 @@ pub fn redeemer_from(
 }
 
 /// Obtain the first redeemer for a given withdrawal script hash
+/// ```aiken
+/// expect Some(raw_redeemer) = withdrawal_redeemer(redeemers, withdrawal_script_hash);
+/// expect my_redeemer: MyRedeemerType = raw_redeemer;
+/// ```
 pub fn withdrawal_redeemer(
   redeemers: Pairs<ScriptPurpose, Redeemer>,
   withdrawal_script_hash: ByteArray,

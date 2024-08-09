@@ -27,6 +27,9 @@ pub fn compare_address(x: Address, y: Address) -> Ordering {
 }
 
 /// Obtain the payment key of an address, it can be either a script hash or a verification key
+/// ```aiken
+/// let payment_key_hash = address_payment_key(address);
+/// ```
 pub fn address_payment_key(address: Address) -> Hash<Blake2b_224, ByteArray> {
   when address.payment_credential is {
     ScriptCredential(hash) -> hash
@@ -35,6 +38,9 @@ pub fn address_payment_key(address: Address) -> Hash<Blake2b_224, ByteArray> {
 }
 
 /// Obtain the verification key of an address, None if it is a script address
+/// ```aiken
+/// expect Some(pub_key_hash) = address_pub_key(address);
+/// ```
 pub fn address_pub_key(
   address: Address,
 ) -> Option<Hash<Blake2b_224, VerificationKey>> {
@@ -45,6 +51,9 @@ pub fn address_pub_key(
 }
 
 /// Obtain the script hash of an address, None if it is a verification key address
+/// ```aiken
+/// expect Some(script_hash) = address_pub_key(address);
+/// ```
 pub fn address_script_hash(
   address: Address,
 ) -> Option<Hash<Blake2b_224, Script>> {
