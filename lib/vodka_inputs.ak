@@ -5,9 +5,9 @@ use aiken/transaction/value.{AssetName, PolicyId, flatten, quantity_of}
 
 /// Extracts the inline datum from an input.
 /// ```aiken
-/// expect inline_datum: MyDatumType = output_inline_datum(input);
+/// expect inline_datum: MyDatumType = input_inline_datum(input);
 /// ```
-pub fn output_inline_datum(input: Input) {
+pub fn input_inline_datum(input: Input) {
   expect InlineDatum(raw_datum) = input.output.datum
   raw_datum
 }
@@ -26,7 +26,7 @@ pub fn only_input_datum_with(
       inputs,
       fn(input) { quantity_of(input.output.value, policy, name) == 1 },
     )
-  output_inline_datum(input)
+  input_inline_datum(input)
 }
 
 /// Filters inputs by Address.
