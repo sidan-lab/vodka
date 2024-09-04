@@ -1,4 +1,4 @@
-use aiken/bytearray
+use aiken/primitive/bytearray
 
 /// Convert an integer to a "stringify" ByteArray value
 /// ```aiken

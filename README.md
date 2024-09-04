@@ -91,7 +91,7 @@ await txBuilder
 Simply run
 
 ```sh
-aiken add sidan-lab/vodka --version 0.0.1-beta
+aiken add sidan-lab/vodka --version 0.1.0-beta
 ```
 
 or putting the below in you `aiken.toml`
@@ -99,7 +99,7 @@ or putting the below in you `aiken.toml`
 ```toml
 [[dependencies]]
 name = "sidan-lab/vodka"
-version = "0.0.1-beta"
+version = "0.1.0-beta"
 source = "github"
 ```
 

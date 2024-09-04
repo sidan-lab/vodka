@@ -1,5 +1,7 @@
 name = "sidan-lab/vodka"
-version = "0.0.1-beta"
+version = "0.1.0-beta"
+compiler = "v1.1.0"
+plutus = "v3"
 license = "Apache-2.0"
 description = "Aiken utils for project 'sidan-lab/vodka"
 
@@ -10,5 +12,7 @@ platform = "github"
 
 [[dependencies]]
 name = "aiken-lang/stdlib"
-version = "1.9.0"
+version = "v2"
 source = "github"
+
+[config]

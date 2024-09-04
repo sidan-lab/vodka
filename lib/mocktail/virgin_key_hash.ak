@@ -1,6 +1,5 @@
-use aiken/hash.{Blake2b_224, Hash}
-use aiken/transaction/credential.{Script, VerificationKey}
-use aiken/transaction/value.{PolicyId}
+use aiken/crypto.{ScriptHash, VerificationKeyHash}
+use cardano/assets.{PolicyId}
 
 /// Mock a key in hexadecimal format
 pub fn mock_key_hash(variation: Int) -> ByteArray {
@@ -84,7 +83,7 @@ pub fn mock_policy_id(variation: Int) -> PolicyId {
 /// Mock a public key hash
 /// The variation is used to distinguish between different public keys
 /// Use this but not other `mock_key_hash` functions to avoid hash collision
-pub fn mock_pub_key_hash(variation: Int) -> Hash<Blake2b_224, VerificationKey> {
+pub fn mock_pub_key_hash(variation: Int) -> VerificationKeyHash {
   when variation is {
     1 -> mock_key_hash(11)
     2 -> mock_key_hash(12)
@@ -97,7 +96,7 @@ pub fn mock_pub_key_hash(variation: Int) -> Hash<Blake2b_224, VerificationKey> {
 /// Mock a script hash
 /// The variation is used to distinguish between different scripts
 /// Use this but not other `mock_key_hash` functions to avoid hash collision
-pub fn mock_script_hash(variation: Int) -> Hash<Blake2b_224, Script> {
+pub fn mock_script_hash(variation: Int) -> ScriptHash {
   when variation is {
     1 -> mock_key_hash(101)
     2 -> mock_key_hash(102)
@@ -136,7 +135,7 @@ pub fn mock_script_hash(variation: Int) -> Hash<Blake2b_224, Script> {
 /// Mock a stake key hash
 /// The variation is used to distinguish between different stake keys
 /// Use this but not other `mock_key_hash` functions to avoid hash collision
-pub fn mock_stake_key_hash(variation: Int) -> Hash<Blake2b_224, VerificationKey> {
+pub fn mock_stake_key_hash(variation: Int) -> VerificationKeyHash {
   when variation is {
     1 -> mock_key_hash(21)
     2 -> mock_key_hash(22)
@@ -149,7 +148,7 @@ pub fn mock_stake_key_hash(variation: Int) -> Hash<Blake2b_224, VerificationKey>
 /// Mock a script stake key hash
 /// The variation is used to distinguish between different scripts
 /// Use this but not other `mock_key_hash` functions to avoid hash collision
-pub fn mock_script_stake_key_hash(variation: Int) -> Hash<Blake2b_224, Script> {
+pub fn mock_script_stake_key_hash(variation: Int) -> ScriptHash {
   when variation is {
     1 -> mock_key_hash(31)
     2 -> mock_key_hash(32)

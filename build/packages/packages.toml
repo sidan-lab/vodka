@@ -1,4 +1,4 @@
 [[packages]]
 name = "aiken-lang/stdlib"
-version = "1.9.0"
+version = "v2"
 source = "github"

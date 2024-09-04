@@ -1,4 +1,4 @@
-use aiken/list
+use aiken/collection/list
 
 /// Check if a key is signed by any of the extra_signatories
 /// ```aiken

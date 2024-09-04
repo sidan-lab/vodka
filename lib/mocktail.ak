@@ -25,22 +25,16 @@
 //// ```
 
 use aiken/cbor
-use aiken/dict
-use aiken/hash.{Blake2b_224, Hash, blake2b_256}
+use aiken/collection/dict
+use aiken/collection/list
+use aiken/crypto.{VerificationKeyHash, blake2b_256}
 use aiken/interval.{Finite, Interval}
-use aiken/list
-use aiken/time.{PosixTime}
-use aiken/transaction.{
+use cardano/address.{Address, Credential, Script}
+use cardano/assets.{Value, from_asset, merge, zero}
+use cardano/certificate.{Certificate}
+use cardano/transaction.{
   InlineDatum, Input, Output, OutputReference, Redeemer, ScriptPurpose,
   Transaction, TransactionId, placeholder,
-}
-use aiken/transaction/certificate.{Certificate}
-use aiken/transaction/credential.{
-  Address, Inline, ScriptCredential, StakeCredential, VerificationKey,
-}
-use aiken/transaction/value.{
-  Value, from_asset, from_lovelace, from_minted_value, merge, to_minted_value,
-  zero,
 }
 use mocktail/virgin_address.{mock_script_address}
 use mocktail/virgin_output_reference.{mock_utxo_ref}
@@ -63,7 +57,7 @@ pub type MocktailTx {
 /// ```
 pub fn mocktail_tx() -> MocktailTx {
   MocktailTx {
-    tx: placeholder(),
+    tx: placeholder,
     queue_input: None,
     queue_output: None,
     queue_ref_input: None,
@@ -93,7 +87,7 @@ pub fn tx_in(
       Some(
         Input {
           output_reference: OutputReference {
-            transaction_id: TransactionId(tx_hash),
+            transaction_id: tx_hash,
             output_index: tx_index,
           },
           output: mock_pub_key_output(address, amount),
@@ -146,7 +140,7 @@ pub fn tx_in_inline_datum(
               output_reference: mock_utxo_ref(0, 0),
               output: mock_script_output(
                 mock_script_address(0, None),
-                zero(),
+                zero,
                 InlineDatum(datum),
               ),
             },
@@ -211,7 +205,7 @@ pub fn tx_out_inline_datum(
           Some(
             mock_script_output(
               mock_script_address(0, None),
-              zero(),
+              zero,
               InlineDatum(datum),
             ),
           )
@@ -269,7 +263,7 @@ pub fn ref_tx_in(
       Some(
         Input {
           output_reference: OutputReference {
-            transaction_id: TransactionId(tx_hash),
+            transaction_id: tx_hash,
             output_index: tx_index,
           },
           output: mock_pub_key_output(address, amount),
@@ -322,7 +316,7 @@ pub fn ref_tx_in_inline_datum(
               output_reference: mock_utxo_ref(0, 0),
               output: mock_script_output(
                 mock_script_address(0, None),
-                zero(),
+                zero,
                 InlineDatum(datum),
               ),
             },
@@ -343,7 +337,7 @@ pub fn ref_tx_in_inline_datum(
 pub fn invalid_before(
   mocktail_tx: MocktailTx,
   condition: Bool,
-  time: PosixTime,
+  time: Int,
 ) -> MocktailTx {
   if !condition {
     mocktail_tx
@@ -375,7 +369,7 @@ pub fn invalid_before(
 pub fn invalid_hereafter(
   mocktail_tx: MocktailTx,
   condition: Bool,
-  time: PosixTime,
+  time: Int,
 ) -> MocktailTx {
   if !condition {
     mocktail_tx
@@ -439,10 +433,7 @@ pub fn script_withdrawal(
     MocktailTx {
       ..mocktail_tx,
       tx: mocktail_tx.tx
-        |> add_withdrawal(
-            True,
-            Pair(Inline(ScriptCredential(script_hash)), withdrawal_amount),
-          ),
+        |> add_withdrawal(True, Pair(Script(script_hash), withdrawal_amount)),
     }
   }
 }
@@ -551,7 +542,7 @@ pub fn set_fee(
   if !condition {
     tx
   } else {
-    Transaction { ..tx, fee: from_lovelace(lovelace_fee) }
+    Transaction { ..tx, fee: lovelace_fee }
   }
 }
 
@@ -570,9 +561,8 @@ pub fn add_mint(tx: Transaction, condition: Bool, mint: Value) -> Transaction {
   } else {
     Transaction {
       ..tx,
-      mint: from_minted_value(tx.mint)
-        |> merge(mint)
-        |> to_minted_value(),
+      mint: tx.mint
+        |> merge(mint),
     }
   }
 }
@@ -613,7 +603,7 @@ pub fn add_certificate(
 pub fn add_withdrawal(
   tx: Transaction,
   condition: Bool,
-  withdrawal: Pair<StakeCredential, Int>,
+  withdrawal: Pair<Credential, Int>,
 ) -> Transaction {
   if !condition {
     tx
@@ -634,7 +624,7 @@ pub fn add_withdrawal(
 pub fn add_extra_signatory(
   tx: Transaction,
   condition: Bool,
-  signatory: Hash<Blake2b_224, VerificationKey>,
+  signatory: VerificationKeyHash,
 ) -> Transaction {
   if !condition {
     tx

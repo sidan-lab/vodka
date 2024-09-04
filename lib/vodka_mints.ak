@@ -1,14 +1,12 @@
-use aiken/list
-use aiken/transaction/value.{
-  AssetName, MintedValue, PolicyId, flatten, from_minted_value,
-}
+use aiken/collection/list
+use cardano/assets.{AssetName, PolicyId, Value, flatten}
 
 /// Check if a certain PolicyId is burning only if exists in the minted value.
 /// ```aiken
 /// let is_policy_only_burn = check_policy_only_burn(minted_value, policy);
 /// ```
-pub fn check_policy_only_burn(mint: MintedValue, policy: PolicyId) -> Bool {
-  let mint_value = flatten(from_minted_value(mint))
+pub fn check_policy_only_burn(mint: Value, policy: PolicyId) -> Bool {
+  let mint_value = flatten(mint)
   list.all(
     mint_value,
     fn(x) {
@@ -26,12 +24,12 @@ pub fn check_policy_only_burn(mint: MintedValue, policy: PolicyId) -> Bool {
 /// let is_only_minted_token = only_minted_token(minted_value, policy, name, quantity);
 /// ```
 pub fn only_minted_token(
-  mint: MintedValue,
+  mint: Value,
   policy: PolicyId,
   name: AssetName,
   quantity: Int,
 ) {
-  when from_minted_value(mint) |> flatten() is {
+  when flatten(mint) is {
     [(minted_policy, minted_asset_name, minted_quantity)] ->
       minted_policy == policy && minted_asset_name == name && minted_quantity == quantity
     _ -> False
@@ -43,12 +41,11 @@ pub fn only_minted_token(
 /// let is_token_minted = token_minted(minted_value, policy, name, quantity);
 /// ```
 pub fn token_minted(
-  mint: MintedValue,
+  mint: Value,
   policy: PolicyId,
   name: AssetName,
   quantity: Int,
 ) {
-  from_minted_value(mint)
-    |> flatten()
+  flatten(mint)
     |> list.any(fn(x) { x.1st == policy && x.2nd == name && x.3rd == quantity })
 }

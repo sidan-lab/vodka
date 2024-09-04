@@ -1,7 +1,7 @@
 use aiken/interval.{
   Finite, Interval, IntervalBound, NegativeInfinity, PositiveInfinity,
 }
-use aiken/transaction.{ValidityRange}
+use cardano/transaction.{ValidityRange}
 
 /// Mock a validity range with the given lower and upper bounds.
 pub fn mock_interval(lower: Option<Int>, upper: Option<Int>) -> ValidityRange {

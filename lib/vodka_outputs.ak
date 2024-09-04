@@ -1,7 +1,7 @@
-use aiken/list
-use aiken/transaction.{InlineDatum, Output}
-use aiken/transaction/credential.{Address}
-use aiken/transaction/value.{AssetName, PolicyId, flatten, quantity_of}
+use aiken/collection/list
+use cardano/address.{Address}
+use cardano/assets.{AssetName, PolicyId, flatten, quantity_of}
+use cardano/transaction.{InlineDatum, Output}
 
 /// Extracts the inline datum from an output.
 /// ```aiken
