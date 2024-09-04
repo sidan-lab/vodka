@@ -1,7 +1,7 @@
-use aiken/list
-use aiken/transaction.{Input, Output}
-use aiken/transaction/credential.{Address}
-use aiken/transaction/value.{Value, flatten, merge, quantity_of, zero}
+use aiken/collection/list
+use cardano/address.{Address}
+use cardano/assets.{Value, flatten, merge, quantity_of, zero}
+use cardano/transaction.{Input, Output}
 
 /// Calulate the length of a value
 /// ```aiken
@@ -18,7 +18,7 @@ pub fn value_length(value: Value) -> Int {
 pub fn get_all_value_to(outputs: List<Output>, address: Address) -> Value {
   list.foldr(
     outputs,
-    zero(),
+    zero,
     fn(output, acc_value) {
       if output.address == address {
         merge(acc_value, output.value)
@@ -36,7 +36,7 @@ pub fn get_all_value_to(outputs: List<Output>, address: Address) -> Value {
 pub fn get_all_value_from(inputs: List<Input>, address: Address) -> Value {
   list.foldr(
     inputs,
-    zero(),
+    zero,
     fn(input, acc_value) {
       if input.output.address == address {
         merge(acc_value, input.output.value)

@@ -1,5 +1,5 @@
-use aiken/hash.{Blake2b_256, Hash}
-use aiken/transaction.{OutputReference, Transaction, TransactionId}
+use aiken/crypto.{Blake2b_256, Hash}
+use cardano/transaction.{OutputReference, Transaction}
 
 pub fn mock_tx_hash(variation: Int) -> Hash<Blake2b_256, Transaction> {
   when variation is {
@@ -13,8 +13,5 @@ pub fn mock_tx_hash(variation: Int) -> Hash<Blake2b_256, Transaction> {
 
 /// Mock an output reference
 pub fn mock_utxo_ref(variation: Int, output_index: Int) -> OutputReference {
-  OutputReference {
-    transaction_id: TransactionId(mock_tx_hash(variation)),
-    output_index,
-  }
+  OutputReference { transaction_id: mock_tx_hash(variation), output_index }
 }

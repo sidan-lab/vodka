@@ -1,14 +1,14 @@
-use aiken/hash.{Blake2b_224, Hash}
-use aiken/transaction.{Datum, NoDatum, Output}
-use aiken/transaction/credential.{Address, Script}
-use aiken/transaction/value.{Value}
+use aiken/crypto.{ScriptHash}
+use cardano/address.{Address}
+use cardano/assets.{Value}
+use cardano/transaction.{Datum, NoDatum, Output}
 
 /// Mock an output
 pub fn mock_output(
   address: Address,
   value: Value,
   datum: Datum,
-  reference_script: Option<Hash<Blake2b_224, Script>>,
+  reference_script: Option<ScriptHash>,
 ) -> Output {
   Output { address, value, datum, reference_script }
 }

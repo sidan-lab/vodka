@@ -1,5 +1,5 @@
 use aiken/interval.{Finite, IntervalBound}
-use aiken/transaction.{ValidityRange}
+use cardano/transaction.{ValidityRange}
 
 /// Check if the validity range is after the required timestamp.
 /// ```aiken

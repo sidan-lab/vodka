@@ -1,10 +1,9 @@
-use aiken/bytearray
-use aiken/pairs
-use aiken/transaction.{
-  Input, OutputReference, Redeemer, ScriptPurpose, Spend, WithdrawFrom,
-  find_input,
+use aiken/collection/pairs
+use aiken/primitive/bytearray
+use cardano/address.{Address, Script}
+use cardano/transaction.{
+  Input, OutputReference, Redeemer, ScriptPurpose, Spend, Withdraw, find_input,
 }
-use aiken/transaction/credential.{Address, Inline, ScriptCredential}
 
 /// Obtain the redeemer for a given output reference and address
 /// ```aiken
@@ -35,17 +34,12 @@ pub fn withdrawal_redeemer(
   withdrawal_script_hash: ByteArray,
 ) -> Option<Data> {
   redeemers
-    |> pairs.get_first(
-        WithdrawFrom(Inline(ScriptCredential(withdrawal_script_hash))),
-      )
+    |> pairs.get_first(Withdraw(Script(withdrawal_script_hash)))
 }
 
 /// Compare the output reference of two spend transactions
 pub fn compare_output_reference(x, y) {
   expect Spend(out_ref_x) = x
   expect Spend(out_ref_y) = y
-  bytearray.compare(
-    out_ref_x.transaction_id.hash,
-    out_ref_y.transaction_id.hash,
-  )
+  bytearray.compare(out_ref_x.transaction_id, out_ref_y.transaction_id)
 }

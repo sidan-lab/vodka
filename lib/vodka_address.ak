@@ -1,13 +1,11 @@
-use aiken/bytearray
-use aiken/hash.{Blake2b_224, Hash}
-use aiken/transaction/credential.{
-  Address, Script, ScriptCredential, VerificationKey, VerificationKeyCredential,
-}
+use aiken/crypto.{Blake2b_224, Hash, ScriptHash, VerificationKeyHash}
+use aiken/primitive/bytearray
+use cardano/address.{Address, Script, VerificationKey}
 
 /// Compare two script addresses 
 pub fn compare_script_address(x: Address, y: Address) -> Ordering {
-  expect ScriptCredential(x_hash) = x.payment_credential
-  expect ScriptCredential(y_hash) = y.payment_credential
+  expect Script(x_hash) = x.payment_credential
+  expect Script(y_hash) = y.payment_credential
   bytearray.compare(x_hash, y_hash)
 }
 
@@ -16,12 +14,10 @@ pub fn compare_address(x: Address, y: Address) -> Ordering {
   let x_hash = x.payment_credential
   let y_hash = y.payment_credential
   when (x_hash, y_hash) is {
-    (ScriptCredential(x_script_hash), ScriptCredential(y_script_hash)) ->
+    (Script(x_script_hash), Script(y_script_hash)) ->
       bytearray.compare(x_script_hash, y_script_hash)
-    (
-      VerificationKeyCredential(x_key_hash),
-      VerificationKeyCredential(y_key_hash),
-    ) -> bytearray.compare(x_key_hash, y_key_hash)
+    (VerificationKey(x_key_hash), VerificationKey(y_key_hash)) ->
+      bytearray.compare(x_key_hash, y_key_hash)
     _ -> Equal
   }
 }
@@ -32,8 +28,8 @@ pub fn compare_address(x: Address, y: Address) -> Ordering {
 /// ```
 pub fn address_payment_key(address: Address) -> Hash<Blake2b_224, ByteArray> {
   when address.payment_credential is {
-    ScriptCredential(hash) -> hash
-    VerificationKeyCredential(key_hash) -> key_hash
+    Script(hash) -> hash
+    VerificationKey(key_hash) -> key_hash
   }
 }
 
@@ -41,11 +37,9 @@ pub fn address_payment_key(address: Address) -> Hash<Blake2b_224, ByteArray> {
 /// ```aiken
 /// expect Some(pub_key_hash) = address_pub_key(address);
 /// ```
-pub fn address_pub_key(
-  address: Address,
-) -> Option<Hash<Blake2b_224, VerificationKey>> {
+pub fn address_pub_key(address: Address) -> Option<VerificationKeyHash> {
   when address.payment_credential is {
-    VerificationKeyCredential(key_hash) -> Some(key_hash)
+    VerificationKey(key_hash) -> Some(key_hash)
     _ -> None
   }
 }
@@ -54,11 +48,9 @@ pub fn address_pub_key(
 /// ```aiken
 /// expect Some(script_hash) = address_pub_key(address);
 /// ```
-pub fn address_script_hash(
-  address: Address,
-) -> Option<Hash<Blake2b_224, Script>> {
+pub fn address_script_hash(address: Address) -> Option<ScriptHash> {
   when address.payment_credential is {
-    ScriptCredential(script_hash) -> Some(script_hash)
+    Script(script_hash) -> Some(script_hash)
     _ -> None
   }
 }

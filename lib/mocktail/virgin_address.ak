@@ -1,13 +1,12 @@
-use aiken/transaction/credential.{
-  Address, Credential, ScriptCredential, StakeCredential,
-  VerificationKeyCredential,
+use cardano/address.{
+  Address, Credential, Script, StakeCredential, VerificationKey,
 }
-use mocktail/virgin_key_hex.{mock_pub_key_hash, mock_script_hash}
+use mocktail/virgin_key_hash.{mock_pub_key_hash, mock_script_hash}
 
 /// Mock a pub key credential
 /// `variation` same the same index as `mock_pub_key_hash`
 pub fn mock_verfication_key_credential(variation: Int) -> Credential {
-  VerificationKeyCredential(mock_pub_key_hash(variation))
+  VerificationKey(mock_pub_key_hash(variation))
 }
 
 /// Mock a pub key address
@@ -26,7 +25,7 @@ pub fn mock_pub_key_address(
 /// Mock a script credential
 /// `variation` same the same index as `mock_script_hash`
 pub fn mock_script_credential(variation: Int) -> Credential {
-  ScriptCredential(mock_script_hash(variation))
+  Script(mock_script_hash(variation))
 }
 
 /// Mock a script address
