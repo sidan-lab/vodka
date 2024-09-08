@@ -14,6 +14,15 @@ Vodka is a library build for [Aiken](https://aiken-lang.org/) development. It of
 1. [Cocktail](https://sidan-lab.github.io/vodka/cocktail.html) - Validating utils in writing on-chain code in aiken
 2. [Mocktail](https://sidan-lab.github.io/vodka/mocktail.html) - Unit test utils for easy building mock value for unit test
 
+## Version
+
+Vodka is now upgraded to support latest PlutusV3 with latest version, if you want to use the old version compatible for legacy aiken version, please refer to below's table
+
+| Vodka       | Aiken Compiler | `aiken-lang/stdlib` |
+| ----------- | -------------- | ------------------- |
+| ^0.1.0-beta | v1.1.0         | v2                  |
+| 0.0.1-beta  | v1.0.29-alpha  | v1.9.0              |
+
 ## Vodka is pure and simple
 
 For your transaction.
