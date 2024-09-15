@@ -13,7 +13,7 @@ pub fn value_length(value: Value) -> Int {
 
 /// Get the value send to a particular address in a list of outputs
 /// ```aiken
-/// let value_to = get_value_to(outputs, address);
+/// let value_to = get_all_value_to(outputs, address);
 /// ```
 pub fn get_all_value_to(outputs: List<Output>, address: Address) -> Value {
   list.foldr(
@@ -31,7 +31,7 @@ pub fn get_all_value_to(outputs: List<Output>, address: Address) -> Value {
 
 /// Get the value coming from a particular address in a list of inputs
 /// ```aiken
-/// let value_from = get_value_from(inputs, address);
+/// let value_from = get_all_value_from(inputs, address);
 /// ```
 pub fn get_all_value_from(inputs: List<Input>, address: Address) -> Value {
   list.foldr(

@@ -18,10 +18,10 @@ Vodka is a library build for [Aiken](https://aiken-lang.org/) development. It of
 
 Vodka is now upgraded to support latest PlutusV3 with latest version, if you want to use the old version compatible for legacy aiken version, please refer to below's table
 
-| Vodka       | Aiken Compiler | `aiken-lang/stdlib` |
-| ----------- | -------------- | ------------------- |
-| ^0.1.0-beta | v1.1.0         | v2                  |
-| 0.0.1-beta  | v1.0.29-alpha  | v1.9.0              |
+| Vodka      | Aiken Compiler | `aiken-lang/stdlib` |
+| ---------- | -------------- | ------------------- |
+| 0.1.1-beta | ^v1.1.0        | v2                  |
+| 0.0.1-beta | v1.0.29-alpha  | v1.9.0              |
 
 ## Vodka is pure and simple
 
@@ -100,7 +100,7 @@ await txBuilder
 Simply run
 
 ```sh
-aiken add sidan-lab/vodka --version 0.1.0-beta
+aiken add sidan-lab/vodka --version 0.1.1-beta
 ```
 
 or putting the below in you `aiken.toml`
@@ -108,7 +108,7 @@ or putting the below in you `aiken.toml`
 ```toml
 [[dependencies]]
 name = "sidan-lab/vodka"
-version = "0.1.0-beta"
+version = "0.1.1-beta"
 source = "github"
 ```
 
