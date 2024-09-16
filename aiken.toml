@@ -1,5 +1,5 @@
 name = "sidan-lab/vodka"
-version = "0.1.1-beta"
+version = "0.1.0-beta"
 compiler = "v1.1.2"
 plutus = "v3"
 license = "Apache-2.0"
