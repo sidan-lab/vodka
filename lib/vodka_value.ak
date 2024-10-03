@@ -1,6 +1,8 @@
 use aiken/collection/list
 use cardano/address.{Address}
-use cardano/assets.{Value, flatten, merge, quantity_of, zero}
+use cardano/assets.{
+  AssetName, PolicyId, Value, flatten, merge, quantity_of, zero,
+}
 use cardano/transaction.{Input, Output}
 
 /// Calulate the length of a value
@@ -67,4 +69,12 @@ pub fn value_policy_info(
   policy: ByteArray,
 ) -> Option<(ByteArray, ByteArray, Int)> {
   list.find(flatten(value), fn(t) { t.1st == policy })
+}
+
+/// Obtain the non-lovelace information (i.e. flattened value) of a policy in a value
+/// ```aiken
+/// let tokens = value_tokens(value);
+/// ```
+pub fn value_tokens(value: Value) -> List<(PolicyId, AssetName, Int)> {
+  list.filter(flatten(value), fn(t) { t.1st != "" })
 }
