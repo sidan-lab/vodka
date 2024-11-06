@@ -20,7 +20,7 @@ Vodka is now upgraded to support latest PlutusV3 with latest version, if you wan
 
 | Vodka      | Aiken Compiler | `aiken-lang/stdlib` |
 | ---------- | -------------- | ------------------- |
-| 0.1.1-beta | ^v1.1.0        | v2                  |
+| 0.1.4-beta | ^v1.1.5        | v2.1.0              |
 | 0.0.1-beta | v1.0.29-alpha  | v1.9.0              |
 
 ## Vodka is pure and simple
@@ -46,7 +46,13 @@ Checking signature with:
 key_signed(extra_signatories, key_hash_required)
 ```
 
-All onchain utility functions are grouped with a naming convention of `vodka_<type>`:
+## Imports and function groups
+
+All onchain utility functions can be imported from `cocktail` and are grouped with a naming convention of `vodka_<type>`.
+
+```ak
+use cocktail.{<the_util_fn>}
+```
 
 | Type                                 | Naming Convention                         |
 | ------------------------------------ | ----------------------------------------- |
@@ -100,7 +106,7 @@ await txBuilder
 Simply run
 
 ```sh
-aiken add sidan-lab/vodka --version 0.1.1-beta
+aiken add sidan-lab/vodka --version 0.1.4-beta
 ```
 
 or putting the below in you `aiken.toml`
@@ -108,7 +114,7 @@ or putting the below in you `aiken.toml`
 ```toml
 [[dependencies]]
 name = "sidan-lab/vodka"
-version = "0.1.1-beta"
+version = "0.1.4-beta"
 source = "github"
 ```
 
