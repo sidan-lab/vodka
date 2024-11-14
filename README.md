@@ -20,7 +20,7 @@ Vodka is now upgraded to support latest PlutusV3 with latest version, if you wan
 
 | Vodka      | Aiken Compiler | `aiken-lang/stdlib` |
 | ---------- | -------------- | ------------------- |
-| 0.1.4-beta | ^v1.1.5        | v2.1.0              |
+| 0.1.5      | ^v1.1.5        | v2.1.0              |
 | 0.0.1-beta | v1.0.29-alpha  | v1.9.0              |
 
 ## Vodka is pure and simple
@@ -106,7 +106,7 @@ await txBuilder
 Simply run
 
 ```sh
-aiken add sidan-lab/vodka --version 0.1.4-beta
+aiken add sidan-lab/vodka --version 0.1.5
 ```
 
 or putting the below in you `aiken.toml`
@@ -114,7 +114,7 @@ or putting the below in you `aiken.toml`
 ```toml
 [[dependencies]]
 name = "sidan-lab/vodka"
-version = "0.1.4-beta"
+version = "0.1.5"
 source = "github"
 ```
 
