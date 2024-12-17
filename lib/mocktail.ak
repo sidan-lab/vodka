@@ -36,10 +36,11 @@ use cardano/transaction.{
   InlineDatum, Input, Output, OutputReference, Redeemer, ScriptPurpose,
   Transaction, TransactionId, placeholder,
 }
-use mocktail/virgin_address.{mock_script_address}
-use mocktail/virgin_output_reference.{mock_utxo_ref}
-use mocktail/virgin_outputs.{mock_pub_key_output, mock_script_output}
-use mocktail/virgin_validity_range.{mock_interval}
+use mocktail/virgin_address
+use mocktail/virgin_key_hash
+use mocktail/virgin_output_reference
+use mocktail/virgin_outputs
+use mocktail/virgin_validity_range
 
 /// A mock transaction builder. It can be initialized with `mocktail_tx()`.
 pub type MocktailTx {
@@ -695,3 +696,63 @@ pub fn set_transaction_id(
     Transaction { ..tx, id: transaction_id }
   }
 }
+
+// Address
+
+/// Documentation please refer to [`virgin_address`](./mocktail/virgin_address.html)
+pub const mock_verfication_key_credential =
+  virgin_address.mock_verfication_key_credential
+
+/// Documentation please refer to [`virgin_address`](./mocktail/virgin_address.html)
+pub const mock_pub_key_address = virgin_address.mock_pub_key_address
+
+/// Documentation please refer to [`virgin_address`](./mocktail/virgin_address.html)
+pub const mock_script_credential = virgin_address.mock_script_credential
+
+/// Documentation please refer to [`virgin_address`](./mocktail/virgin_address.html)
+pub const mock_script_address = virgin_address.mock_script_address
+
+// Key hash
+
+/// Documentation please refer to [`virgin_key_hash`](./mocktail/virgin_key_hash.html)
+pub const mock_key_hash = virgin_key_hash.mock_key_hash
+
+/// Documentation please refer to [`virgin_key_hash`](./mocktail/virgin_key_hash.html)
+pub const mock_policy_id = virgin_key_hash.mock_policy_id
+
+/// Documentation please refer to [`virgin_key_hash`](./mocktail/virgin_key_hash.html)
+pub const mock_pub_key_hash = virgin_key_hash.mock_pub_key_hash
+
+/// Documentation please refer to [`virgin_key_hash`](./mocktail/virgin_key_hash.html)
+pub const mock_script_hash = virgin_key_hash.mock_script_hash
+
+/// Documentation please refer to [`virgin_key_hash`](./mocktail/virgin_key_hash.html)
+pub const mock_stake_key_hash = virgin_key_hash.mock_stake_key_hash
+
+/// Documentation please refer to [`virgin_key_hash`](./mocktail/virgin_key_hash.html)
+pub const mock_script_stake_key_hash =
+  virgin_key_hash.mock_script_stake_key_hash
+
+// Output reference
+
+/// Documentation please refer to [`virgin_output_reference`](./mocktail/virgin_output_reference.html)
+pub const mock_tx_hash = virgin_output_reference.mock_tx_hash
+
+/// Documentation please refer to [`virgin_output_reference`](./mocktail/virgin_output_reference.html)
+pub const mock_utxo_ref = virgin_output_reference.mock_utxo_ref
+
+// Outputs
+
+/// Documentation please refer to [`virgin_outputs`](./mocktail/virgin_outputs.html)
+pub const mock_output = virgin_outputs.mock_output
+
+/// Documentation please refer to [`virgin_outputs`](./mocktail/virgin_outputs.html)
+pub const mock_pub_key_output = virgin_outputs.mock_pub_key_output
+
+/// Documentation please refer to [`virgin_outputs`](./mocktail/virgin_outputs.html)
+pub const mock_script_output = virgin_outputs.mock_script_output
+
+// Validity range
+
+/// Documentation please refer to [`virgin_validity_range`](./mocktail/virgin_validity_range.html)
+pub const mock_interval = virgin_validity_range.mock_interval

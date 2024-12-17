@@ -14,12 +14,30 @@ Vodka is a library build for [Aiken](https://aiken-lang.org/) development. It of
 1. [Cocktail](https://sidan-lab.github.io/vodka/cocktail.html) - Validating utils in writing on-chain code in aiken
 2. [Mocktail](https://sidan-lab.github.io/vodka/mocktail.html) - Unit test utils for easy building mock value for unit test
 
+## Start mixing
+
+Simply run
+
+```sh
+aiken add sidan-lab/vodka --version 0.1.7
+```
+
+or putting the below in you `aiken.toml`
+
+```toml
+[[dependencies]]
+name = "sidan-lab/vodka"
+version = "0.1.7"
+source = "github"
+```
+
 ## Version
 
 Vodka is now upgraded to support latest PlutusV3 with latest version, if you want to use the old version compatible for legacy aiken version, please refer to below's table
 
 | Vodka      | Aiken Compiler | `aiken-lang/stdlib` |
 | ---------- | -------------- | ------------------- |
+| 0.1.7      | ^v1.1.9        | v2.1.0              |
 | 0.1.6      | ^v1.1.5        | v2.1.0              |
 | 0.0.1-beta | v1.0.29-alpha  | v1.9.0              |
 
@@ -101,21 +119,14 @@ await txBuilder
   .complete();
 ```
 
-## Start mixing
+## CIP Support
 
-Simply run
+All CIP supporting utility can be imported under `cip`
 
-```sh
-aiken add sidan-lab/vodka --version 0.1.6
-```
+```rs
+use cip.{cip68_100}
 
-or putting the below in you `aiken.toml`
-
-```toml
-[[dependencies]]
-name = "sidan-lab/vodka"
-version = "0.1.6"
-source = "github"
+let reference_token_name = cip68_100(asset_name)
 ```
 
 ## Documentation
