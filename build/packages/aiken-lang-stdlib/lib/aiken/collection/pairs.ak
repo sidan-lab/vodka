@@ -12,6 +12,7 @@
 //// > and thus allow for duplicate keys. This is reflected in the functions used
 //// > to interact with them.
 
+use aiken/builtin
 use aiken/primitive/bytearray
 
 // ## Inspecting
@@ -472,6 +473,12 @@ test delete_last_4() {
 /// Insert a value in the `Pairs` at a given key. If the key already exists,
 /// the value is added in front.
 ///
+/// > [!CAUTION]
+/// > The list is only traversed up to the given key and the traversal
+/// > stops as soon as a higher key is encountered. Said differently, the list
+/// > is assumed to **be ordered by ascending keys**! If it is not, expect the
+/// > unexpected.
+///
 /// ```aiken
 /// use aiken/primitive/bytearray
 ///
@@ -523,6 +530,141 @@ test insert_by_ascending_key_2() {
   m == [Pair("bar", 14), Pair("baz", 1337), Pair("foo", 42)]
 }
 
+/// Like [`insert_by_ascending_key`](#insert_by_ascending_key) but specifies
+/// how to combine two values on a key conflict.
+///
+/// > [!CAUTION]
+/// > The list is only traversed up to the given key and the traversal
+/// > stops as soon as a higher key is encountered. Said differently, the list
+/// > is assumed to **be ordered by ascending keys**! If it is not, expect the
+/// > unexpected.
+///
+/// ```aiken
+/// use aiken/primitive/bytearray
+///
+/// let add_integer = fn(x, y) { x + y }
+///
+/// let result =
+///   []
+///     |> pairs.insert_with_by_ascending_key(key: "foo", value: 1, compare: bytearray.compare, with: add_integer)
+///     |> pairs.insert_with_by_ascending_key(key: "bar", value: 2, compare: bytearray.compare, with: add_integer)
+///     |> pairs.insert_with_by_ascending_key(key: "foo", value: 3, compare: bytearray.compare, with: add_integer)
+///
+/// result == [Pair("bar", 2), Pair("foo", 4)]
+/// ```
+pub fn insert_with_by_ascending_key(
+  self: Pairs<key, value>,
+  key k: key,
+  value v: value,
+  compare: fn(key, key) -> Ordering,
+  with: fn(value, value) -> value,
+) -> Pairs<key, value> {
+  when self is {
+    [] -> [Pair(k, v)]
+    [Pair(k2, v2), ..rest] ->
+      if compare(k, k2) == Less {
+        [Pair(k, v), ..self]
+      } else {
+        if k == k2 {
+          [Pair(k, with(v, v2)), ..rest]
+        } else {
+          [
+            Pair(k2, v2),
+            ..insert_with_by_ascending_key(rest, k, v, compare, with)
+          ]
+        }
+      }
+  }
+}
+
+test insert_with_by_ascending_key_1() {
+  let compare_un_b_data =
+    fn(l, r) {
+      bytearray.compare(l |> builtin.un_b_data, r |> builtin.un_b_data)
+    }
+
+  let m =
+    []
+      |> insert_with_by_ascending_key(
+          "foo" |> builtin.b_data,
+          42,
+          compare_un_b_data,
+          builtin.add_integer,
+        )
+      |> insert_with_by_ascending_key(
+          "foo" |> builtin.b_data,
+          14,
+          compare_un_b_data,
+          builtin.add_integer,
+        )
+
+  m == [Pair("foo" |> builtin.b_data, 56)]
+}
+
+test insert_with_by_ascending_key_2() {
+  let compare_un_b_data =
+    fn(l, r) {
+      bytearray.compare(l |> builtin.un_b_data, r |> builtin.un_b_data)
+    }
+
+  let m =
+    []
+      |> insert_with_by_ascending_key(
+          "foo" |> builtin.b_data,
+          42,
+          compare_un_b_data,
+          builtin.add_integer,
+        )
+      |> insert_with_by_ascending_key(
+          "bar" |> builtin.b_data,
+          14,
+          compare_un_b_data,
+          builtin.add_integer,
+        )
+      |> insert_with_by_ascending_key(
+          "baz" |> builtin.b_data,
+          1337,
+          compare_un_b_data,
+          builtin.add_integer,
+        )
+
+  m == [
+    Pair("bar" |> builtin.b_data, 14),
+    Pair("baz" |> builtin.b_data, 1337),
+    Pair("foo" |> builtin.b_data, 42),
+  ]
+}
+
+test insert_with_by_ascending_key_3() {
+  let compare_un_b_data =
+    fn(l, r) {
+      bytearray.compare(l |> builtin.un_b_data, r |> builtin.un_b_data)
+    }
+
+  let result =
+    []
+      |> insert_with_by_ascending_key(
+          "foo" |> builtin.b_data,
+          1,
+          compare_un_b_data,
+          builtin.add_integer,
+        )
+      |> insert_with_by_ascending_key(
+          "bar" |> builtin.b_data,
+          2,
+          compare_un_b_data,
+          builtin.add_integer,
+        )
+      |> insert_with_by_ascending_key(
+          "foo" |> builtin.b_data,
+          3,
+          compare_un_b_data,
+          builtin.add_integer,
+        )
+
+  result == [Pair("bar" |> builtin.b_data, 2), Pair("foo" |> builtin.b_data, 4)]
+}
+
 /// Apply a function to all key-value pairs in a alist, replacing the values.
 ///
 /// ```aiken
@@ -554,6 +696,12 @@ test map_2() {
 
 /// Insert a value in the `Pairs` at a given key. If the key already exists,
 /// its value is replaced.
+///
+/// > [!CAUTION]
+/// > The list is only traversed up to the given key and the traversal
+/// > stops as soon as a higher key is encountered. Said differently, the list
+/// > is assumed to **be ordered by ascending keys**! If it is not, expect the
+/// > unexpected.
 ///
 /// ```aiken
 /// use aiken/primitive/bytearray
