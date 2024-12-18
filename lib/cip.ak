@@ -25,6 +25,15 @@ pub const cip68_333_prefix: ByteArray = #"0014df10"
 /// The byte prefix for CIP-68 asset - Rich-Fungible Token
 pub const cip68_444_prefix: ByteArray = #"001bc280"
 
+pub fn drop_cip68_prefix(cip_68_asset_name: AssetName) -> AssetName {
+  cip_68_asset_name |> bytearray.drop(4)
+}
+
+test test_drop_cip68_prefix() {
+  let cip68_100_asset_name = #"000643b012345678"
+  drop_cip68_prefix(cip68_100_asset_name) == #"12345678"
+}
+
 /// Obtain the asset name for CIP-68 asset - Reference Token
 /// ```aiken
 /// let cip68_100_asset_name = cip68_100(asset_name);
