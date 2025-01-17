@@ -34,6 +34,9 @@ pub const compare_script_address = vodka_address.compare_script_address
 pub const compare_address = vodka_address.compare_address
 
 /// Documentation please refer to [`vodka_address`](./cocktail/vodka_address.html)
+pub const address_payment_key = vodka_address.address_payment_key
+
+/// Documentation please refer to [`vodka_address`](./cocktail/vodka_address.html)
 pub const address_pub_key = vodka_address.address_pub_key
 
 /// Documentation please refer to [`vodka_address`](./cocktail/vodka_address.html)
