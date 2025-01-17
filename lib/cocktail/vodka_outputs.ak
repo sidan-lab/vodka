@@ -5,7 +5,7 @@ use cardano/transaction.{InlineDatum, Output}
 
 /// Extracts the inline datum from an output.
 /// ```aiken
-/// expect inline_datum: MyDatumType = output_inline_datum(output);
+/// expect inline_datum: MyDatumType = output_inline_datum(output)
 /// ```
 pub fn output_inline_datum(output: Output) {
   expect InlineDatum(raw_datum) = output.datum
@@ -14,7 +14,7 @@ pub fn output_inline_datum(output: Output) {
 
 /// Filters outputs by Address.
 /// ```aiken
-/// let filtered_outputs = outputs_at(outputs, address);
+/// let filtered_outputs = outputs_at(outputs, address)
 /// ```
 pub fn outputs_at(outputs: List<Output>, address: Address) -> List<Output> {
   list.filter(outputs, fn(output) { output.address == address })
@@ -22,7 +22,7 @@ pub fn outputs_at(outputs: List<Output>, address: Address) -> List<Output> {
 
 /// Filters outputs by PolicyId and AssetName.
 /// ```aiken
-/// let filtered_outputs = outputs_with(outputs, policy, name);
+/// let filtered_outputs = outputs_with(outputs, policy, name)
 /// ```
 pub fn outputs_with(
   outputs: List<Output>,
@@ -37,7 +37,7 @@ pub fn outputs_with(
 
 /// Filters outputs by token policy.
 /// ```aiken
-/// let filtered_outputs = outputs_with_policy(outputs, policy);
+/// let filtered_outputs = outputs_with_policy(outputs, policy)
 /// ```
 pub fn outputs_with_policy(
   outputs: List<Output>,
@@ -53,7 +53,7 @@ pub fn outputs_with_policy(
 
 /// Filters outputs by Address, PolicyId, and AssetName.
 /// ```aiken
-/// let filtered_outputs = outputs_at_with(outputs, address, policy, name);
+/// let filtered_outputs = outputs_at_with(outputs, address, policy, name)
 /// ```
 pub fn outputs_at_with(
   outputs: List<Output>,
@@ -71,7 +71,7 @@ pub fn outputs_at_with(
 
 /// Filters outputs by Address and PolicyId.
 /// ```aiken
-/// let filtered_outputs = outputs_at_with_policy(outputs, address, policy);
+/// let filtered_outputs = outputs_at_with_policy(outputs, address, policy)
 /// ```
 pub fn outputs_at_with_policy(
   outputs: List<Output>,

@@ -3,7 +3,7 @@ use cardano/assets.{AssetName, PolicyId, Value, flatten}
 
 /// Check if a certain PolicyId is burning only if exists in the minted value.
 /// ```aiken
-/// let is_policy_only_burn = check_policy_only_burn(minted_value, policy);
+/// let is_policy_only_burn = check_policy_only_burn(minted_value, policy)
 /// ```
 pub fn check_policy_only_burn(mint: Value, policy: PolicyId) -> Bool {
   let mint_value = flatten(mint)
@@ -21,7 +21,7 @@ pub fn check_policy_only_burn(mint: Value, policy: PolicyId) -> Bool {
 
 /// Check if the minted value contains only one distinct asset with particular PolicyId.
 /// ```aiken
-/// let is_only_minted_token = only_minted_token(minted_value, policy, name, quantity);
+/// let is_only_minted_token = only_minted_token(minted_value, policy, name, quantity)
 /// ```
 pub fn only_minted_token(
   mint: Value,
@@ -38,7 +38,7 @@ pub fn only_minted_token(
 
 /// Check if the minted value contains a token with particular PolicyId, AssetName, and quantity.
 /// ```aiken
-/// let is_token_minted = token_minted(minted_value, policy, name, quantity);
+/// let is_token_minted = token_minted(minted_value, policy, name, quantity)
 /// ```
 pub fn token_minted(
   mint: Value,

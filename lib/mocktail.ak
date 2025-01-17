@@ -54,7 +54,7 @@ pub type MocktailTx {
 /// ```aiken
 /// let tx = mocktail_tx()
 ///   |> ...other tx building methods
-///   |> complete();
+///   |> complete()
 /// ```
 pub fn mocktail_tx() -> MocktailTx {
   MocktailTx {
@@ -71,7 +71,7 @@ pub fn mocktail_tx() -> MocktailTx {
 /// let tx = mocktail_tx()
 ///   |> tx_in(condition, tx_hash, tx_index, amount, address)
 ///   |> ...other tx building methods
-///   |> complete();
+///   |> complete()
 /// ```
 pub fn tx_in(
   mocktail_tx: MocktailTx,
@@ -114,7 +114,7 @@ pub fn tx_in(
 ///   |> tx_in(condition, tx_hash, tx_index, amount, address)
 ///   |> tx_in_inline_datum(condition, datum)
 ///   |> ...other tx building methods
-///   |> complete();
+///   |> complete()
 /// ```
 pub fn tx_in_inline_datum(
   mocktail_tx: MocktailTx,
@@ -157,7 +157,7 @@ pub fn tx_in_inline_datum(
 /// let tx = mocktail_tx()
 ///   |> tx_out(condition, address, amount)
 ///   |> ...other tx building methods
-///   |> complete();
+///   |> complete()
 /// ```
 pub fn tx_out(
   mocktail_tx: MocktailTx,
@@ -189,7 +189,7 @@ pub fn tx_out(
 ///   |> tx_out(condition, address, amount)
 ///   |> tx_out_inline_datum(condition, datum)
 ///   |> ...other tx building methods
-///   |> complete();
+///   |> complete()
 /// ```
 pub fn tx_out_inline_datum(
   mocktail_tx: MocktailTx,
@@ -221,7 +221,7 @@ pub fn tx_out_inline_datum(
 /// let tx = mocktail_tx()
 ///   |> mint(condition, quantity, policy_id, token_name)
 ///   |> ...other tx building methods
-///   |> complete();
+///   |> complete()
 /// ```
 pub fn mint(
   mocktail_tx: MocktailTx,
@@ -247,7 +247,7 @@ pub fn mint(
 /// let tx = mocktail_tx()
 ///   |> ref_tx_in(condition, tx_hash, tx_index, amount, address)
 ///   |> ...other tx building methods
-///   |> complete();
+///   |> complete()
 /// ```
 pub fn ref_tx_in(
   mocktail_tx: MocktailTx,
@@ -290,7 +290,7 @@ pub fn ref_tx_in(
 ///   |> ref_tx_in(condition, tx_hash, tx_index, amount, address)
 ///   |> ref_tx_in_inline_datum(condition, datum)
 ///   |> ...other tx building methods
-///   |> complete();
+///   |> complete()
 /// ```
 pub fn ref_tx_in_inline_datum(
   mocktail_tx: MocktailTx,
@@ -333,7 +333,7 @@ pub fn ref_tx_in_inline_datum(
 /// let tx = mocktail_tx()
 ///   |> valid_hereafter(condition, time)
 ///   |> ...other tx building methods
-///   |> complete();
+///   |> complete()
 /// ```
 pub fn invalid_before(
   mocktail_tx: MocktailTx,
@@ -365,7 +365,7 @@ pub fn invalid_before(
 /// let tx = mocktail_tx()
 ///   |> valid_hereafter(condition, time)
 ///   |> ...other tx building methods
-///   |> complete();
+///   |> complete()
 /// ```
 pub fn invalid_hereafter(
   mocktail_tx: MocktailTx,
@@ -397,7 +397,7 @@ pub fn invalid_hereafter(
 /// let tx = mocktail_tx()
 ///   |> required_signer_hash(condition, key)
 ///   |> ...other tx building methods
-///   |> complete();
+///   |> complete()
 /// ```
 pub fn required_signer_hash(
   mocktail_tx: MocktailTx,
@@ -420,7 +420,7 @@ pub fn required_signer_hash(
 /// let tx = mocktail_tx()
 ///  |> script_withdrawal(condition, script_hash, withdrawal_amount)
 ///  |> ...other tx building methods
-///  |> complete();
+///  |> complete()
 /// ```
 pub fn script_withdrawal(
   mocktail_tx: MocktailTx,
@@ -443,7 +443,7 @@ pub fn script_withdrawal(
 /// ```aiken
 /// let tx = mocktail_tx()
 ///   |> ...tx building methods
-///   |> complete();
+///   |> complete()
 pub fn complete(mocktail_tx: MocktailTx) -> Transaction {
   let tx = mocktail_tx.tx
   let tx =

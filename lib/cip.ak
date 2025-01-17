@@ -5,10 +5,10 @@
 //// use cip
 //// use cardano/assets.{AssetName}
 ////
-//// let cip68_100_asset_name = cip.cip68_100(asset_name);
-//// let cip68_222_asset_name = cip.cip68_222(asset_name);
-//// let cip68_333_asset_name = cip.cip68_333(asset_name);
-//// let cip68_444_asset_name = cip.cip68_444(asset_name);
+//// let cip68_100_asset_name = cip.cip68_100(asset_name)
+//// let cip68_222_asset_name = cip.cip68_222(asset_name)
+//// let cip68_333_asset_name = cip.cip68_333(asset_name)
+//// let cip68_444_asset_name = cip.cip68_444(asset_name)
 
 use aiken/primitive/bytearray.{concat}
 use cardano/assets.{AssetName}
@@ -36,7 +36,7 @@ test test_drop_cip68_prefix() {
 
 /// Obtain the asset name for CIP-68 asset - Reference Token
 /// ```aiken
-/// let cip68_100_asset_name = cip68_100(asset_name);
+/// let cip68_100_asset_name = cip68_100(asset_name)
 /// ```
 pub fn cip68_100(asset_name: AssetName) -> AssetName {
   concat(cip68_100_prefix, asset_name)
@@ -44,7 +44,7 @@ pub fn cip68_100(asset_name: AssetName) -> AssetName {
 
 /// Obtain the asset name for CIP-68 asset - Non-Fungible Token
 /// ```aiken
-/// let cip68_222_asset_name = cip68_222(asset_name);
+/// let cip68_222_asset_name = cip68_222(asset_name)
 /// ```
 pub fn cip68_222(asset_name: AssetName) -> AssetName {
   concat(cip68_222_prefix, asset_name)
@@ -52,7 +52,7 @@ pub fn cip68_222(asset_name: AssetName) -> AssetName {
 
 /// Obtain the asset name for CIP-68 asset - Fungible Token
 /// ```aiken
-/// let cip68_333_asset_name = cip68_333(asset_name);
+/// let cip68_333_asset_name = cip68_333(asset_name)
 /// ```
 pub fn cip68_333(asset_name: AssetName) -> AssetName {
   concat(cip68_333_prefix, asset_name)
@@ -60,7 +60,7 @@ pub fn cip68_333(asset_name: AssetName) -> AssetName {
 
 /// Obtain the asset name for CIP-68 asset - Rich-Fungible Token
 /// ```aiken
-/// let cip68_444_asset_name = cip68_444(asset_name);
+/// let cip68_444_asset_name = cip68_444(asset_name)
 /// ```
 pub fn cip68_444(asset_name: AssetName) -> AssetName {
   concat(cip68_444_prefix, asset_name)
