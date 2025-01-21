@@ -477,7 +477,7 @@ pub fn add_input(tx: Transaction, condition: Bool, input: Input) -> Transaction 
   if !condition {
     tx
   } else {
-    Transaction { ..tx, inputs: tx.inputs |> list.push(input) }
+    Transaction { ..tx, inputs: tx.inputs |> list.concat([input]) }
   }
 }
 
@@ -500,7 +500,7 @@ pub fn add_reference_input(
   } else {
     Transaction {
       ..tx,
-      reference_inputs: tx.reference_inputs |> list.push(input),
+      reference_inputs: tx.reference_inputs |> list.concat([input]),
     }
   }
 }
@@ -522,7 +522,7 @@ pub fn add_output(
   if !condition {
     tx
   } else {
-    Transaction { ..tx, outputs: tx.outputs |> list.push(output) }
+    Transaction { ..tx, outputs: tx.outputs |> list.concat([output]) }
   }
 }
 
@@ -587,7 +587,7 @@ pub fn add_certificate(
   } else {
     Transaction {
       ..tx,
-      certificates: tx.certificates |> list.push(certificate),
+      certificates: tx.certificates |> list.concat([certificate]),
     }
   }
 }
@@ -609,7 +609,10 @@ pub fn add_withdrawal(
   if !condition {
     tx
   } else {
-    Transaction { ..tx, withdrawals: tx.withdrawals |> list.push(withdrawal) }
+    Transaction {
+      ..tx,
+      withdrawals: tx.withdrawals |> list.concat([withdrawal]),
+    }
   }
 }
 
@@ -632,7 +635,7 @@ pub fn add_extra_signatory(
   } else {
     Transaction {
       ..tx,
-      extra_signatories: tx.extra_signatories |> list.push(signatory),
+      extra_signatories: tx.extra_signatories |> list.concat([signatory]),
     }
   }
 }
@@ -654,7 +657,7 @@ pub fn add_redeemer(
   if !condition {
     tx
   } else {
-    Transaction { ..tx, redeemers: tx.redeemers |> list.push(redeemer) }
+    Transaction { ..tx, redeemers: tx.redeemers |> list.concat([redeemer]) }
   }
 }
 
@@ -756,3 +759,18 @@ pub const mock_script_output = virgin_outputs.mock_script_output
 
 /// Documentation please refer to [`virgin_validity_range`](./mocktail/virgin_validity_range.html)
 pub const mock_interval = virgin_validity_range.mock_interval
+
+test preserve_tx_in_order() {
+  let tx: Transaction =
+    mocktail_tx()
+      |> tx_in(True, mock_tx_hash(0), 0, zero, mock_pub_key_address(0, None))
+      |> tx_in(True, mock_tx_hash(1), 1, zero, mock_pub_key_address(1, None))
+      |> complete()
+  expect [input1, input2] = tx.inputs
+  and {
+    input1.output_reference.transaction_id == mock_tx_hash(0),
+    input1.output_reference.output_index == 0,
+    input2.output_reference.transaction_id == mock_tx_hash(1),
+    input2.output_reference.output_index == 1,
+  }
+}
