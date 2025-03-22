@@ -19,6 +19,23 @@ pub fn check_policy_only_burn(mint: Value, policy: PolicyId) -> Bool {
   )
 }
 
+/// Check if a certain policy has only minted this token.
+/// ```aiken
+/// let is_policy_only_minted = check_policy_only_minted(minted_value, policy, name, quantity)
+/// ```
+pub fn policy_only_minted_token(
+  mint: Value,
+  policy: PolicyId,
+  name: AssetName,
+  quantity: Int,
+) {
+  when flatten(mint) |> list.filter(fn(asset) { asset.1st == policy }) is {
+    [(_, minted_asset_name, minted_quantity)] ->
+      minted_asset_name == name && minted_quantity == quantity
+    _ -> False
+  }
+}
+
 /// Check if the minted value contains only one distinct asset with particular PolicyId.
 /// ```aiken
 /// let is_only_minted_token = only_minted_token(minted_value, policy, name, quantity)
