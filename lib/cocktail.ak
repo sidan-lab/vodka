@@ -96,6 +96,9 @@ pub const check_policy_only_burn = vodka_mints.check_policy_only_burn
 pub const only_minted_token = vodka_mints.only_minted_token
 
 /// Documentation please refer to [`vodka_mints`](./cocktail/vodka_mints.html)
+pub const policy_only_minted_token = vodka_mints.policy_only_minted_token
+
+/// Documentation please refer to [`vodka_mints`](./cocktail/vodka_mints.html)
 pub const token_minted = vodka_mints.token_minted
 
 // Outputs
