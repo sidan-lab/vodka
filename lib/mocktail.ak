@@ -331,7 +331,7 @@ pub fn ref_tx_in_inline_datum(
 /// This function will only run when the condition is `True`.
 /// ```aiken
 /// let tx = mocktail_tx()
-///   |> valid_hereafter(condition, time)
+///   |> invalid_before(condition, time)
 ///   |> ...other tx building methods
 ///   |> complete()
 /// ```
@@ -363,7 +363,7 @@ pub fn invalid_before(
 /// This function will only run when the condition is `True`.
 /// ```aiken
 /// let tx = mocktail_tx()
-///   |> valid_hereafter(condition, time)
+///   |> invalid_hereafter(condition, time)
 ///   |> ...other tx building methods
 ///   |> complete()
 /// ```
