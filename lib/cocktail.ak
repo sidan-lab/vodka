@@ -16,6 +16,7 @@
 //// - `Redeemers` - [Documentation](./cocktail/vodka_redeemers.html)
 
 use cocktail/vodka_address
+use cocktail/vodka_certificate
 use cocktail/vodka_converter
 use cocktail/vodka_extra_signatories
 use cocktail/vodka_inputs
@@ -159,3 +160,33 @@ pub const value_policy_info = vodka_value.value_policy_info
 
 /// Documentation please refer to [`vodka_value`](./cocktail/vodka_value.html)
 pub const value_tokens = vodka_value.value_tokens
+
+// Certificate
+
+/// Documentation please refer to [`vodka_certificate`](./cocktail/vodka_certificate.html)
+pub const register_stake_certificate =
+  vodka_certificate.register_stake_certificate
+
+/// Documentation please refer to [`vodka_certificate`](./cocktail/vodka_certificate.html)
+pub const unregister_stake_certificate =
+  vodka_certificate.unregister_stake_certificate
+
+/// Documentation please refer to [`vodka_certificate`](./cocktail/vodka_certificate.html)
+pub const register_drep_certificate =
+  vodka_certificate.register_drep_certificate
+
+/// Documentation please refer to [`vodka_certificate`](./cocktail/vodka_certificate.html)
+pub const unregister_drep_certificate =
+  vodka_certificate.unregister_drep_certificate
+
+/// Documentation please refer to [`vodka_certificate`](./cocktail/vodka_certificate.html)
+pub const delegate_stake_certificate =
+  vodka_certificate.delegate_stake_certificate
+
+/// Documentation please refer to [`vodka_certificate`](./cocktail/vodka_certificate.html)
+pub const delegate_vote_certificate =
+  vodka_certificate.delegate_vote_certificate
+
+/// Documentation please refer to [`vodka_certificate`](./cocktail/vodka_certificate.html)
+pub const delegate_stake_and_vote_certificate =
+  vodka_certificate.delegate_stake_and_vote_certificate
