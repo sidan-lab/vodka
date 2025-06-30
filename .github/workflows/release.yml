@@ -1,11 +1,8 @@
 name: Auto Release
 
 on:
-  pull_request:
-    types:
-      - closed
-    branches:
-      - main
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -20,61 +17,19 @@ jobs:
       - run: aiken check -D
       - run: aiken docs
 
-  check-version:
+  github-releases-to-discord:
+    needs: [build]
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
-    outputs:
-      version-updated: ${{ steps.compare-versions.outputs.version-updated }}
-      version: ${{ steps.compare-versions.outputs.version }}
     steps:
-      - name: Checkout main branch at commit before merge
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Github Releases To Discord
+        uses: SethCohen/github-releases-to-discord@v1
         with:
-          ref: ${{ github.event.pull_request.base.sha }}
-
-      - name: Get package version from main branch before merge
-        id: pre-merge-version
-        run: |
-          PRE_MERGE_VERSION=$(grep -m 1 '^version = ' aiken.toml | sed 's/version = "\(.*\)"/\1/')
-          echo "pre_merge_version=$PRE_MERGE_VERSION" >> "$GITHUB_OUTPUT"
-
-      - name: Checkout main branch at commit after merge
-        uses: actions/checkout@v4
-        with:
-          ref: "main"
-
-      - name: Get package version from main branch after merge
-        id: post-merge-version
-        run: |
-          POST_MERGE_VERSION=$(grep -m 1 '^version = ' aiken.toml | sed 's/version = "\(.*\)"/\1/')
-          echo "post_merge_version=$POST_MERGE_VERSION" >> "$GITHUB_OUTPUT"
-
-      - name: Compare versions
-        id: compare-versions
-        run: |
-          if [[ "${{ steps.pre-merge-version.outputs.pre_merge_version }}" != "${{ steps.post-merge-version.outputs.post_merge_version }}" ]]; then
-              echo "version-updated=true" >> "$GITHUB_OUTPUT"
-              echo "version=${{ steps.post-merge-version.outputs.post_merge_version }}" >> "$GITHUB_OUTPUT"
-          else
-              echo "version-updated=false" >> "$GITHUB_OUTPUT"
-          fi
-
-  release:
-    needs: [build, check-version]
-    if: needs.check-version.outputs.version-updated == 'true'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Create a Release in a GitHub Action
-        uses: comnoco/create-release-action@v2.0.5
-        with:
-          tag_name: ${{ needs.check-version.outputs.version }}
-          release_name: ${{ needs.check-version.outputs.version }}
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
+          color: "2105893"
+          username: "vodka"
+          avatar_url: "https://raw.githubusercontent.com/sidan-lab/brand_assets/refs/heads/main/sidan_s_square.png"
+          content: "Hey fellow Rust Cardano devs! New version of [vodka](https://github.com/sidan-lab/vodka) has been published:"
+          footer_title: "Changelog"
+          reduce_headings: true
