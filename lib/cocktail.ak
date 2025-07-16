@@ -25,6 +25,7 @@ use cocktail/vodka_outputs
 use cocktail/vodka_redeemers
 use cocktail/vodka_validity_range
 use cocktail/vodka_value
+use cocktail/vodka_withdrawals
 
 // Address
 
@@ -190,3 +191,7 @@ pub const delegate_vote_certificate =
 /// Documentation please refer to [`vodka_certificate`](./cocktail/vodka_certificate.html)
 pub const delegate_stake_and_vote_certificate =
   vodka_certificate.delegate_stake_and_vote_certificate
+
+/// Documentation please refer to [`vodka_withdrawals`](./cocktail/vodka_withdrawals.html)
+pub const withdrawal_script_validated =
+  vodka_withdrawals.withdrawal_script_validated
