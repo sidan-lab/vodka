@@ -30,6 +30,6 @@ jobs:
           color: "2105893"
           username: "vodka"
           avatar_url: "https://raw.githubusercontent.com/sidan-lab/brand_assets/refs/heads/main/sidan_s_square.png"
-          content: "Hey fellow Rust Cardano devs! New version of [vodka](https://github.com/sidan-lab/vodka) has been published:"
+          content: "Hey fellow Cardano devs! New version of [vodka](https://github.com/sidan-lab/vodka) has been published:"
           footer_title: "Changelog"
           reduce_headings: true
