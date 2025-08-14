@@ -18,6 +18,7 @@
 use cocktail/vodka_address
 use cocktail/vodka_certificate
 use cocktail/vodka_converter
+use cocktail/vodka_crypto
 use cocktail/vodka_extra_signatories
 use cocktail/vodka_inputs
 use cocktail/vodka_mints
@@ -195,3 +196,9 @@ pub const delegate_stake_and_vote_certificate =
 /// Documentation please refer to [`vodka_withdrawals`](./cocktail/vodka_withdrawals.html)
 pub const withdrawal_script_validated =
   vodka_withdrawals.withdrawal_script_validated
+
+/// Documentation please refer to [`vodka_crypto`](./cocktail/vodka_crypto.html)
+pub const verify_signatures = vodka_crypto.verify_signatures
+
+/// Documentation please refer to [`vodka_crypto`](./cocktail/vodka_crypto.html)
+pub const verify_pub_keys = vodka_crypto.verify_pub_keys
