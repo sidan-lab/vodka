@@ -76,19 +76,38 @@ pub const only_input_datum_with = vodka_inputs.only_input_datum_with
 pub const inputs_at = vodka_inputs.inputs_at
 
 /// Documentation please refer to [`vodka_inputs`](./cocktail/vodka_inputs.html)
+pub const i_at = vodka_inputs.i_at
+
+/// Documentation please refer to [`vodka_inputs`](./cocktail/vodka_inputs.html)
 pub const inputs_with = vodka_inputs.inputs_with
+
+/// Documentation please refer to [`vodka_inputs`](./cocktail/vodka_inputs.html)
+pub const i_with = vodka_inputs.i_with
 
 /// Documentation please refer to [`vodka_inputs`](./cocktail/vodka_inputs.html)
 pub const inputs_with_policy = vodka_inputs.inputs_with_policy
 
 /// Documentation please refer to [`vodka_inputs`](./cocktail/vodka_inputs.html)
+pub const i_with_policy = vodka_inputs.i_with_policy
+
+/// Documentation please refer to [`vodka_inputs`](./cocktail/vodka_inputs.html)
 pub const inputs_at_with = vodka_inputs.inputs_at_with
+
+/// Documentation please refer to [`vodka_inputs`](./cocktail/vodka_inputs.html)
+pub const i_at_with = vodka_inputs.i_at_with
 
 /// Documentation please refer to [`vodka_inputs`](./cocktail/vodka_inputs.html)
 pub const inputs_at_with_policy = vodka_inputs.inputs_at_with_policy
 
 /// Documentation please refer to [`vodka_inputs`](./cocktail/vodka_inputs.html)
+pub const i_at_with_policy = vodka_inputs.i_at_with_policy
+
+/// Documentation please refer to [`vodka_inputs`](./cocktail/vodka_inputs.html)
 pub const inputs_token_quantity = vodka_inputs.inputs_token_quantity
+
+pub const group_inputs = vodka_inputs.group_inputs
+
+pub const group_inputs_2 = vodka_inputs.group_inputs_2
 
 // Mints
 
@@ -112,17 +131,31 @@ pub const output_inline_datum = vodka_outputs.output_inline_datum
 /// Documentation please refer to [`vodka_outputs`](./cocktail/vodka_outputs.html)
 pub const outputs_at = vodka_outputs.outputs_at
 
+pub const o_at = vodka_outputs.o_at
+
 /// Documentation please refer to [`vodka_outputs`](./cocktail/vodka_outputs.html)
 pub const outputs_with = vodka_outputs.outputs_with
+
+pub const o_with = vodka_outputs.o_with
 
 /// Documentation please refer to [`vodka_outputs`](./cocktail/vodka_outputs.html)
 pub const outputs_with_policy = vodka_outputs.outputs_with_policy
 
+pub const o_with_policy = vodka_outputs.o_with_policy
+
 /// Documentation please refer to [`vodka_outputs`](./cocktail/vodka_outputs.html)
 pub const outputs_at_with = vodka_outputs.outputs_at_with
 
+pub const o_at_with = vodka_outputs.o_at_with
+
 /// Documentation please refer to [`vodka_outputs`](./cocktail/vodka_outputs.html)
 pub const outputs_at_with_policy = vodka_outputs.outputs_at_with_policy
+
+pub const o_at_with_policy = vodka_outputs.o_at_with_policy
+
+pub const group_outputs = vodka_outputs.group_outputs
+
+pub const group_outputs_2 = vodka_outputs.group_outputs_2
 
 // Redeemers
 

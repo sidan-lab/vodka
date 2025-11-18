@@ -2,7 +2,7 @@
   "preamble": {
     "title": "sidan-lab/vodka",
     "description": "Aiken utils for project 'sidan-lab/vodka",
-    "version": "0.1.17",
+    "version": "0.1.18",
     "plutusVersion": "v3",
     "compiler": {
       "name": "Aiken",
