@@ -20,6 +20,11 @@ pub fn outputs_at(outputs: List<Output>, address: Address) -> List<Output> {
   list.filter(outputs, o_at(address))
 }
 
+/// Predicate to filter outputs by Address, can be used as grouping outputs for example.
+/// ```aiken
+/// let predicate = o_at(address)
+/// let (grouped_outputs, other_outputs) = group_outputs(outputs, predicate)
+/// ```
 pub fn o_at(address: Address) -> fn(Output) -> Bool {
   fn(o: Output) { o.address == address }
 }
@@ -36,6 +41,11 @@ pub fn outputs_with(
   list.filter(outputs, o_with(policy, name))
 }
 
+/// Predicate to filter outputs by PolicyId and AssetName, can be used as grouping outputs for example.
+/// ```aiken
+/// let predicate = o_with(policy, name)
+/// let (grouped_outputs, other_outputs) = group_outputs(outputs, predicate)
+/// ```
 pub fn o_with(policy: PolicyId, name: AssetName) -> fn(Output) -> Bool {
   fn(o: Output) { quantity_of(o.value, policy, name) == 1 }
 }
@@ -51,6 +61,11 @@ pub fn outputs_with_policy(
   list.filter(outputs, o_with_policy(policy))
 }
 
+/// Predicate to filter outputs by token policy, can be used as grouping outputs for example.
+/// ```aiken
+/// let predicate = o_with_policy(policy)
+/// let (grouped_outputs, other_outputs) = group_outputs(outputs, predicate)
+/// ```
 pub fn o_with_policy(policy: PolicyId) -> fn(Output) -> Bool {
   fn(o: Output) {
     list.any(flatten(o.value), fn(token) { token.1st == policy })
@@ -70,6 +85,11 @@ pub fn outputs_at_with(
   list.filter(outputs, o_at_with(address, policy, name))
 }
 
+/// Predicate to filter outputs by Address, PolicyId, and AssetName, can be used as grouping outputs for example.
+/// ```aiken
+/// let predicate = o_at_with(address, policy, name)
+/// let (grouped_outputs, other_outputs) = group_outputs(outputs, predicate)
+/// ```
 pub fn o_at_with(
   address: Address,
   policy: PolicyId,
@@ -100,6 +120,11 @@ pub fn outputs_at_with_policy(
   )
 }
 
+/// Predicate to filter outputs by Address and PolicyId, can be used as grouping outputs for example.
+/// ```aiken
+/// let predicate = o_at_with_policy(address, policy)
+/// let (grouped_outputs, other_outputs) = group_outputs(outputs, predicate)
+/// ```
 pub fn o_at_with_policy(
   address: Address,
   policy: PolicyId,
@@ -112,6 +137,10 @@ pub fn o_at_with_policy(
   }
 }
 
+/// Group outputs into two lists based on a predicate. First list contains outputs that satisfy the predicate, second list contains the rest.
+/// ```aiken
+/// let (grouped_outputs, other_outputs) = group_outputs(outputs, predicate)
+/// ```
 pub fn group_outputs(
   outputs: List<Output>,
   group: fn(Output) -> Bool,
@@ -129,6 +158,10 @@ pub fn group_outputs(
       )
 }
 
+/// Group outputs into three lists based on two predicates. First list contains outputs that satisfy the first predicate, second list contains outputs that satisfy the second predicate, third list contains the rest.
+/// ```aiken
+/// let (group1_outputs, group2_outputs, other_outputs) = group_outputs_2
+/// ```
 pub fn group_outputs_2(
   outputs: List<Output>,
   group1: fn(Output) -> Bool,

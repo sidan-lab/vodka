@@ -34,6 +34,11 @@ pub fn inputs_at(inputs: List<Input>, address: Address) -> List<Input> {
   list.filter(inputs, i_at(address))
 }
 
+/// Predicate to filter inputs by Address, can be used as grouping inputs for example.
+/// ```aiken
+/// let predicate = i_at(address)
+/// let (grouped_inputs, other_inputs) = group_inputs(inputs, predicate)
+/// ```
 pub fn i_at(address: Address) -> fn(Input) -> Bool {
   fn(i: Input) { i.output.address == address }
 }
@@ -50,6 +55,11 @@ pub fn inputs_with(
   list.filter(inputs, i_with(policy, name))
 }
 
+/// Predicate to filter inputs by PolicyId and AssetName, can be used as grouping inputs for example.
+/// ```aiken
+/// let predicate = i_with(policy, name)
+/// let (grouped_inputs, other_inputs) = group_inputs(inputs, predicate)
+/// ```
 pub fn i_with(policy: PolicyId, name: AssetName) -> fn(Input) -> Bool {
   fn(i: Input) { quantity_of(i.output.value, policy, name) == 1 }
 }
@@ -62,6 +72,11 @@ pub fn inputs_with_policy(inputs: List<Input>, policy: PolicyId) -> List<Input> 
   list.filter(inputs, i_with_policy(policy))
 }
 
+/// Predicate to filter inputs by token policy, can be used as grouping inputs for example.
+/// ```aiken
+/// let predicate = i_with_policy(policy)
+/// let (grouped_inputs, other_inputs) = group_inputs(inputs, predicate)
+/// ```
 pub fn i_with_policy(policy: PolicyId) -> fn(Input) -> Bool {
   fn(i: Input) {
     list.any(flatten(i.output.value), fn(token) { token.1st == policy })
@@ -81,6 +96,11 @@ pub fn inputs_at_with(
   list.filter(inputs, i_at_with(address, policy, name))
 }
 
+/// Predicate to filter inputs by Address, PolicyId, and AssetName, can be used as grouping inputs for example.
+/// ```aiken
+/// let predicate = i_at_with(address, policy, name)
+/// let (grouped_inputs, other_inputs) = group_inputs(inputs, predicate)
+/// ```
 pub fn i_at_with(
   address: Address,
   policy: PolicyId,
@@ -127,6 +147,10 @@ pub fn inputs_token_quantity(
     |> list.foldr(0, fn(n, total) { n + total })
 }
 
+/// Group inputs into two lists based on a predicate. First list contains inputs that satisfy the predicate, second list contains the rest.
+/// ```aiken
+/// let (grouped_inputs, other_inputs) = group_inputs(inputs, predicate)
+/// ```
 pub fn group_inputs(
   inputs: List<Input>,
   group: fn(Input) -> Bool,
@@ -144,6 +168,10 @@ pub fn group_inputs(
       )
 }
 
+/// Group inputs into three lists based on two predicates. First list contains inputs that satisfy the first predicate, second list contains inputs that satisfy the second predicate, third list contains the rest.
+/// ```aiken
+/// let (group1_inputs, group2_inputs, other_inputs) = group_inputs_2
+/// ```
 pub fn group_inputs_2(
   inputs: List<Input>,
   group1: fn(Input) -> Bool,
