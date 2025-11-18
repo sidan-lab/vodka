@@ -1,7 +1,8 @@
 use aiken/collection/list
 use cardano/address.{Address}
-use cardano/assets.{AssetName, PolicyId, flatten, quantity_of}
+use cardano/assets.{AssetName, PolicyId, flatten, quantity_of, zero}
 use cardano/transaction.{InlineDatum, Input}
+use mocktail.{complete, mock_pub_key_address, mock_tx_hash, mocktail_tx, tx_in}
 
 /// Extracts the inline datum from an input.
 /// ```aiken
@@ -21,11 +22,7 @@ pub fn only_input_datum_with(
   policy: PolicyId,
   name: AssetName,
 ) {
-  expect Some(input) =
-    list.find(
-      inputs,
-      fn(input) { quantity_of(input.output.value, policy, name) == 1 },
-    )
+  expect Some(input) = list.find(inputs, i_with(policy, name))
   input_inline_datum(input)
 }
 
@@ -34,7 +31,11 @@ pub fn only_input_datum_with(
 /// let filtered_inputs = inputs_at(inputs, address)
 /// ```
 pub fn inputs_at(inputs: List<Input>, address: Address) -> List<Input> {
-  list.filter(inputs, fn(input) { input.output.address == address })
+  list.filter(inputs, i_at(address))
+}
+
+pub fn i_at(address: Address) -> fn(Input) -> Bool {
+  fn(i: Input) { i.output.address == address }
 }
 
 /// Filters inputs by PolicyId and AssetName.
@@ -46,10 +47,11 @@ pub fn inputs_with(
   policy: PolicyId,
   name: AssetName,
 ) -> List<Input> {
-  list.filter(
-    inputs,
-    fn(input) { quantity_of(input.output.value, policy, name) == 1 },
-  )
+  list.filter(inputs, i_with(policy, name))
+}
+
+pub fn i_with(policy: PolicyId, name: AssetName) -> fn(Input) -> Bool {
+  fn(i: Input) { quantity_of(i.output.value, policy, name) == 1 }
 }
 
 /// Filters inputs by token policy.
@@ -57,12 +59,13 @@ pub fn inputs_with(
 /// let filtered_inputs = inputs_with_policy(inputs, policy)
 /// ```
 pub fn inputs_with_policy(inputs: List<Input>, policy: PolicyId) -> List<Input> {
-  list.filter(
-    inputs,
-    fn(input) {
-      list.any(flatten(input.output.value), fn(token) { token.1st == policy })
-    },
-  )
+  list.filter(inputs, i_with_policy(policy))
+}
+
+pub fn i_with_policy(policy: PolicyId) -> fn(Input) -> Bool {
+  fn(i: Input) {
+    list.any(flatten(i.output.value), fn(token) { token.1st == policy })
+  }
 }
 
 /// Filters inputs by Address, PolicyId, and AssetName.
@@ -75,16 +78,17 @@ pub fn inputs_at_with(
   policy: PolicyId,
   name: AssetName,
 ) -> List<Input> {
-  list.filter(
-    inputs,
-    fn(input) {
-      input.output.address == address && quantity_of(
-        input.output.value,
-        policy,
-        name,
-      ) == 1
-    },
-  )
+  list.filter(inputs, i_at_with(address, policy, name))
+}
+
+pub fn i_at_with(
+  address: Address,
+  policy: PolicyId,
+  name: AssetName,
+) -> fn(Input) -> Bool {
+  fn(i: Input) {
+    i.output.address == address && quantity_of(i.output.value, policy, name) == 1
+  }
 }
 
 /// Filters inputs by Address and PolicyId.
@@ -96,15 +100,16 @@ pub fn inputs_at_with_policy(
   address: Address,
   policy: PolicyId,
 ) -> List<Input> {
-  list.filter(
-    inputs,
-    fn(input) {
-      input.output.address == address && list.any(
-        flatten(input.output.value),
-        fn(token) { token.1st == policy },
-      )
-    },
-  )
+  list.filter(inputs, i_at_with_policy(address, policy))
+}
+
+pub fn i_at_with_policy(address: Address, policy: PolicyId) -> fn(Input) -> Bool {
+  fn(i: Input) {
+    i.output.address == address && list.any(
+      flatten(i.output.value),
+      fn(token) { token.1st == policy },
+    )
+  }
 }
 
 /// Calculate the total quantity of a token in a list of inputs.
@@ -120,4 +125,73 @@ pub fn inputs_token_quantity(
     fn(input) { quantity_of(input.output.value, token.1st, token.2nd) },
   )
     |> list.foldr(0, fn(n, total) { n + total })
+}
+
+pub fn group_inputs(
+  inputs: List<Input>,
+  group: fn(Input) -> Bool,
+) -> (List<Input>, List<Input>) {
+  inputs
+    |> list.foldr(
+        ([], []),
+        fn(input, acc) {
+          if group(input) {
+            (acc.1st |> list.push(input), acc.2nd)
+          } else {
+            (acc.1st, acc.2nd |> list.push(input))
+          }
+        },
+      )
+}
+
+pub fn group_inputs_2(
+  inputs: List<Input>,
+  group1: fn(Input) -> Bool,
+  group2: fn(Input) -> Bool,
+) -> (List<Input>, List<Input>, List<Input>) {
+  inputs
+    |> list.foldr(
+        ([], [], []),
+        fn(input, acc) {
+          if group1(input) {
+            (acc.1st |> list.push(input), acc.2nd, acc.3rd)
+          } else if group2(input) {
+            (acc.1st, acc.2nd |> list.push(input), acc.3rd)
+          } else {
+            (acc.1st, acc.2nd, acc.3rd |> list.push(input))
+          }
+        },
+      )
+}
+
+test test_group_inputs_at() {
+  let tx =
+    mocktail_tx()
+      |> tx_in(True, mock_tx_hash(0), 0, zero, mock_pub_key_address(0, None))
+      |> tx_in(True, mock_tx_hash(0), 1, zero, mock_pub_key_address(0, None))
+      |> tx_in(True, mock_tx_hash(0), 2, zero, mock_pub_key_address(0, None))
+      |> tx_in(True, mock_tx_hash(0), 3, zero, mock_pub_key_address(1, None))
+      |> complete()
+
+  let mock_inputs = tx.inputs
+
+  let (inputs, inputs_2) =
+    mock_inputs |> group_inputs(i_at(mock_pub_key_address(0, None)))
+  list.length(inputs_2) == 1 && list.length(inputs) == 3
+}
+
+test test_inputs_at() {
+  let tx =
+    mocktail_tx()
+      |> tx_in(True, mock_tx_hash(0), 0, zero, mock_pub_key_address(0, None))
+      |> tx_in(True, mock_tx_hash(0), 1, zero, mock_pub_key_address(0, None))
+      |> tx_in(True, mock_tx_hash(0), 2, zero, mock_pub_key_address(0, None))
+      |> tx_in(True, mock_tx_hash(0), 3, zero, mock_pub_key_address(1, None))
+      |> complete()
+
+  let mock_inputs = tx.inputs
+
+  let inputs = mock_inputs |> inputs_at(mock_pub_key_address(0, None))
+  let inputs_2 = mock_inputs |> inputs_at(mock_pub_key_address(1, None))
+  list.length(inputs_2) == 1 && list.length(inputs) == 3
 }

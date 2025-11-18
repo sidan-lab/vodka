@@ -78,3 +78,11 @@ pub fn value_policy_info(
 pub fn value_tokens(value: Value) -> List<(PolicyId, AssetName, Int)> {
   list.filter(flatten(value), fn(t) { t.1st != "" })
 }
+
+pub fn inputs_value(inputs: List<Input>) -> Value {
+  list.reduce(inputs, zero, fn(acc, input) { merge(acc, input.output.value) })
+}
+
+pub fn outputs_value(outputs: List<Output>) -> Value {
+  list.reduce(outputs, zero, fn(acc, output) { merge(acc, output.value) })
+}
