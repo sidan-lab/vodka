@@ -34,7 +34,7 @@ use cardano/assets.{Value, from_asset, merge, zero}
 use cardano/certificate.{Certificate}
 use cardano/transaction.{
   InlineDatum, Input, Output, OutputReference, Redeemer, ScriptPurpose,
-  Transaction, TransactionId, placeholder,
+  Transaction, TransactionId, Withdraw, placeholder,
 }
 use mocktail/virgin_address
 use mocktail/virgin_key_hash
@@ -48,6 +48,7 @@ pub type MocktailTx {
   queue_input: Option<Input>,
   queue_output: Option<Output>,
   queue_ref_input: Option<Input>,
+  queue_withdrawal: Option<Pair<Pair<Credential, Int>, Redeemer>>,
 }
 
 /// Initialize a new mock transaction builder, and output a built transaction wiht [`.complete().`](./mocktail.html#complete)
@@ -62,6 +63,7 @@ pub fn mocktail_tx() -> MocktailTx {
     queue_input: None,
     queue_output: None,
     queue_ref_input: None,
+    queue_withdrawal: None,
   }
 }
 
@@ -109,6 +111,7 @@ pub fn tx_in(
 /// Tx building method - Add an input with inline datum to the transaction.
 /// This can only be used right after [`tx_in`](./mocktail.html#tx_in).
 /// This function will only run when the condition is `True`.
+/// If not followed by `tx_in`, this function will do nothing.
 /// ```aiken
 /// let tx = mocktail_tx()
 ///   |> tx_in(condition, tx_hash, tx_index, amount, address)
@@ -135,17 +138,7 @@ pub fn tx_in_inline_datum(
             },
           )
         }
-        None ->
-          Some(
-            Input {
-              output_reference: mock_utxo_ref(0, 0),
-              output: mock_script_output(
-                mock_script_address(0, None),
-                zero,
-                InlineDatum(datum),
-              ),
-            },
-          )
+        None -> None
       }
     MocktailTx { ..mocktail_tx, queue_input: queue_input }
   }
@@ -184,6 +177,7 @@ pub fn tx_out(
 /// Tx building method - Add an output with inline datum to the transaction.
 /// This can only be used right after [`tx_out`](./mocktail.html#tx_out).
 /// This function will only run when the condition is `True`.
+/// If not followed by `tx_out`, this function will do nothing.
 /// ```aiken
 /// let tx = mocktail_tx()
 ///   |> tx_out(condition, address, amount)
@@ -202,14 +196,7 @@ pub fn tx_out_inline_datum(
     let queue_output =
       when mocktail_tx.queue_output is {
         Some(output) -> Some(Output { ..output, datum: InlineDatum(datum) })
-        None ->
-          Some(
-            mock_script_output(
-              mock_script_address(0, None),
-              zero,
-              InlineDatum(datum),
-            ),
-          )
+        None -> None
       }
     MocktailTx { ..mocktail_tx, queue_output: queue_output }
   }
@@ -285,6 +272,7 @@ pub fn ref_tx_in(
 /// Tx building method - Add an inline datum to last reference input in the transaction.
 /// This can only be used right after [`ref_tx_in`](./mocktail.html#ref_tx_in).
 /// This function will only run when the condition is `True`.
+/// If not followed by `ref_tx_in`, this function will do nothing.
 /// ```aiken
 /// let tx = mocktail_tx()
 ///   |> ref_tx_in(condition, tx_hash, tx_index, amount, address)
@@ -311,17 +299,7 @@ pub fn ref_tx_in_inline_datum(
             },
           )
         }
-        None ->
-          Some(
-            Input {
-              output_reference: mock_utxo_ref(0, 0),
-              output: mock_script_output(
-                mock_script_address(0, None),
-                zero,
-                InlineDatum(datum),
-              ),
-            },
-          )
+        None -> None
       }
     MocktailTx { ..mocktail_tx, queue_ref_input: queue_ref_input }
   }
@@ -431,11 +409,62 @@ pub fn script_withdrawal(
   if !condition {
     mocktail_tx
   } else {
-    MocktailTx {
-      ..mocktail_tx,
-      tx: mocktail_tx.tx
-        |> add_withdrawal(True, Pair(Script(script_hash), withdrawal_amount)),
+    let redeemer: Redeemer = Void
+    let queue_withdrawal =
+      Some(Pair(Pair(Script(script_hash), withdrawal_amount), redeemer))
+
+    when mocktail_tx.queue_withdrawal is {
+      Some(last_queue_withdrawal) -> {
+        let Pair(last_withdrawal, last_redeemer) = last_queue_withdrawal
+        let is_script_withdrawal =
+          when last_withdrawal.1st is {
+            Script(_) -> True
+            _ -> False
+          }
+        MocktailTx {
+          ..mocktail_tx,
+          queue_withdrawal: queue_withdrawal,
+          tx: mocktail_tx.tx
+            |> add_withdrawal(True, last_withdrawal)
+            |> add_redeemer(
+                is_script_withdrawal,
+                Pair(Withdraw(last_withdrawal.1st), last_redeemer),
+              ),
+        }
+      }
+      None -> MocktailTx { ..mocktail_tx, queue_withdrawal: queue_withdrawal }
     }
+  }
+}
+
+/// Tx building method - Add a redeemer to last script withdrawal in the transaction.
+/// This can only be used right after [`script_withdrawal`](./mocktail.html#script_withdrawal).
+/// This function will only run when the condition is `True`.
+/// If not followed by `script_withdrawal`, this function will do nothing.
+/// ```aiken
+/// let tx = mocktail_tx()
+///   |> script_withdrawal(condition, script_hash, withdrawal_amount)
+///   |> withdrawal_redeemer_value(condition, redeemer)
+///   |> ...other tx building methods
+///   |> complete()
+/// ```
+pub fn withdrawal_redeemer_value(
+  mocktail_tx: MocktailTx,
+  condition: Bool,
+  redeemer: Redeemer,
+) -> MocktailTx {
+  if !condition {
+    mocktail_tx
+  } else {
+    let queue_withdrawal =
+      when mocktail_tx.queue_withdrawal is {
+        Some(withdrawal) -> {
+          let Pair(Pair(credential, amount), _) = withdrawal
+          Some(Pair(Pair(credential, amount), redeemer))
+        }
+        None -> None
+      }
+    MocktailTx { ..mocktail_tx, queue_withdrawal: queue_withdrawal }
   }
 }
 
