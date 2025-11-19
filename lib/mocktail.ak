@@ -490,6 +490,23 @@ pub fn complete(mocktail_tx: MocktailTx) -> Transaction {
       Some(input) -> tx |> add_reference_input(True, input)
       None -> tx
     }
+  let tx =
+    when mocktail_tx.queue_withdrawal is {
+      Some(Pair(withdrawal, redeemer)) -> {
+        let is_script_withdrawal =
+          when withdrawal.1st is {
+            Script(_) -> True
+            _ -> False
+          }
+        tx
+          |> add_withdrawal(True, withdrawal)
+          |> add_redeemer(
+              is_script_withdrawal,
+              Pair(Withdraw(withdrawal.1st), redeemer),
+            )
+      }
+      None -> tx
+    }
   tx
 }
 
