@@ -197,6 +197,12 @@ pub const get_all_value_to = vodka_value.get_all_value_to
 pub const get_all_value_from = vodka_value.get_all_value_from
 
 /// Documentation please refer to [`vodka_value`](./cocktail/vodka_value.html)
+pub const get_all_value_to_script = vodka_value.get_all_value_to_script
+
+/// Documentation please refer to [`vodka_value`](./cocktail/vodka_value.html)
+pub const get_all_value_from_script = vodka_value.get_all_value_from_script
+
+/// Documentation please refer to [`vodka_value`](./cocktail/vodka_value.html)
 pub const value_geq = vodka_value.value_geq
 
 /// Documentation please refer to [`vodka_value`](./cocktail/vodka_value.html)

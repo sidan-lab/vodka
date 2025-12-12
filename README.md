@@ -19,7 +19,7 @@ Vodka is a library build for [Aiken](https://aiken-lang.org/) development. It of
 Simply run
 
 ```sh
-aiken add sidan-lab/vodka --version 0.1.21
+aiken add sidan-lab/vodka --version 0.1.22
 ```
 
 or putting the below in you `aiken.toml`
@@ -27,7 +27,7 @@ or putting the below in you `aiken.toml`
 ```toml
 [[dependencies]]
 name = "sidan-lab/vodka"
-version = "0.1.21"
+version = "0.1.22"
 source = "github"
 ```
 
@@ -37,7 +37,7 @@ Vodka is now upgraded to support latest PlutusV3 with latest version, if you wan
 
 | Vodka      | Aiken Compiler | `aiken-lang/stdlib` |
 | ---------- | -------------- | ------------------- |
-| 0.1.21     | ^v1.1.9        | v2.2.0              |
+| 0.1.22     | ^v1.1.9        | v2.2.0              |
 | 0.1.6      | ^v1.1.5        | v2.1.0              |
 | 0.0.1-beta | v1.0.29-alpha  | v1.9.0              |
 
