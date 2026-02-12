@@ -5,8 +5,7 @@ use cocktail/vodka_outputs.{
   outputs_with_policy,
 }
 use mocktail.{
-  complete, mock_policy_id, mock_pub_key_address, mock_tx_hash, mocktail_tx,
-  tx_out,
+  complete, mock_policy_id, mock_pub_key_address, mocktail_tx, tx_out,
 }
 
 test test_outputs_at() {
