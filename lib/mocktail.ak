@@ -1,6 +1,6 @@
 //// Mocktail contains a set of functions to build transactions for testing purposes.
 //// 
-//// To use Mocktail Tx, there are 4 steps
+//// To use Mocktail Tx, there are 4 steps:
 //// 1. Starts with [`mocktail_tx()`](./mocktail.html#mocktail_tx) to create a new transaction builder.
 //// 2. Use tx building methods similar to MeshJS lower level APIs to build the transaction.
 //// 3. Call [`complete`](./mocktail.html#complete) to complete building transaction.
@@ -8,7 +8,7 @@
 //// 
 //// Mocktail is built with devex and multiple test cases compatibility in mind.
 //// 1. It is pipable.
-//// 2. For every tx building and adding methods, it takes first param as condition. that function will only run when this condition is `True`.
+//// 2. Each tx building and adding method takes as its first param a condition. That function will only run when this condition is `True`.
 ////
 //// ## Example
 //// ```aiken
@@ -51,7 +51,7 @@ pub type MocktailTx {
   queue_withdrawal: Option<Pair<Pair<Credential, Int>, Redeemer>>,
 }
 
-/// Initialize a new mock transaction builder, and output a built transaction wiht [`.complete().`](./mocktail.html#complete)
+/// Initialize a new mock transaction builder, and output a built transaction with [`.complete().`](./mocktail.html#complete)
 /// ```aiken
 /// let tx = mocktail_tx()
 ///   |> ...other tx building methods
@@ -510,14 +510,14 @@ pub fn complete(mocktail_tx: MocktailTx) -> Transaction {
   tx
 }
 
-/// Tx maniputlator - Add an input to the transaction.
+/// Tx manipulator - Add an input to the transaction.
 /// This function will only run when the condition is `True`.
 /// ```aiken
 /// let tx = mocktail_tx()
 ///   |> ...tx building methods
 ///   |> complete()
 ///   |> add_input(condition, input)
-///   |> ...other tx maniputlator methods
+///   |> ...other tx manipulator methods
 /// ```
 pub fn add_input(tx: Transaction, condition: Bool, input: Input) -> Transaction {
   if !condition {
@@ -527,14 +527,14 @@ pub fn add_input(tx: Transaction, condition: Bool, input: Input) -> Transaction 
   }
 }
 
-/// Tx maniputlator - Add a reference input to the transaction.
+/// Tx manipulator - Add a reference input to the transaction.
 /// This function will only run when the condition is `True`.
 /// ```aiken
 /// let tx = mocktail_tx()
 ///   |> ...tx building methods
 ///   |> complete()
 ///   |> add_reference_input(condition, input)
-///   |> ...other tx maniputlator methods
+///   |> ...other tx manipulator methods
 /// ```
 pub fn add_reference_input(
   tx: Transaction,
@@ -551,14 +551,14 @@ pub fn add_reference_input(
   }
 }
 
-/// Tx maniputlator - Add an output to the transaction.
+/// Tx manipulator - Add an output to the transaction.
 /// This function will only run when the condition is `True`.
 /// ```aiken
 /// let t = mocktail_tx()
 ///   |> ...tx building methods
 ///   |> complete()
 ///   |> add_output(condition, output)
-///   |> ...other tx maniputlator methods
+///   |> ...other tx manipulator methods
 /// ```
 pub fn add_output(
   tx: Transaction,
@@ -572,14 +572,14 @@ pub fn add_output(
   }
 }
 
-/// Tx maniputlator - Set a fee to the transaction.
+/// Tx manipulator - Set a fee to the transaction.
 /// This function will only run when the condition is `True`.
 /// ```aiken
 /// let tx = mocktail_tx()
 ///   |> ...tx building methods
 ///   |> complete()
 ///   |> set_fee(condition, lovelace_fee)
-///   |> ...other tx maniputlator methods
+///   |> ...other tx manipulator methods
 /// ```
 pub fn set_fee(
   tx: Transaction,
@@ -593,14 +593,14 @@ pub fn set_fee(
   }
 }
 
-/// Tx maniputlator - Add a mint to the transaction.
+/// Tx manipulator - Add a mint to the transaction.
 /// This function will only run when the condition is `True`.
 /// ```aiken
 /// let tx = mocktail_tx()
 ///   |> ...tx building methods
 ///   |> complete()
 ///   |> add_mint(condition, mint)
-///   |> ...other tx maniputlator methods
+///   |> ...other tx manipulator methods
 /// ```
 pub fn add_mint(tx: Transaction, condition: Bool, mint: Value) -> Transaction {
   if !condition {
@@ -614,14 +614,14 @@ pub fn add_mint(tx: Transaction, condition: Bool, mint: Value) -> Transaction {
   }
 }
 
-/// Tx maniputlator - Add a certificate to the transaction.
+/// Tx manipulator - Add a certificate to the transaction.
 /// This function will only run when the condition is `True`.
 /// ```aiken
 /// let tx = mocktail_tx()
 ///   |> ...tx building methods
 ///   |> complete()
 ///   |> add_certificate(condition, certificate)
-///   |> ...other tx maniputlator methods
+///   |> ...other tx manipulator methods
 /// ```
 pub fn add_certificate(
   tx: Transaction,
@@ -638,14 +638,14 @@ pub fn add_certificate(
   }
 }
 
-/// Tx maniputlator - Add a withdrawal to the transaction.
+/// Tx manipulator - Add a withdrawal to the transaction.
 /// This function will only run when the condition is `True`.
 /// ```aiken
 /// let tx = mocktail_tx()
 ///   |> ...tx building methods
 ///   |> complete()
 ///   |> add_withdrawal(condition, stake_credential, amount)
-///   |> ...other tx maniputlator methods
+///   |> ...other tx manipulator methods
 /// ```
 pub fn add_withdrawal(
   tx: Transaction,
@@ -662,14 +662,14 @@ pub fn add_withdrawal(
   }
 }
 
-/// Tx maniputlator - Add an extra signatory to the transaction.
+/// Tx manipulator - Add an extra signatory to the transaction.
 /// This function will only run when the condition is `True`.
 /// ```aiken
 /// let tx = mocktail_tx()
 ///   |> ...tx building methods
 ///   |> complete()
 ///   |> add_extra_signatory(condition, signatory)
-///   |> ...other tx maniputlator methods
+///   |> ...other tx manipulator methods
 /// ```
 pub fn add_extra_signatory(
   tx: Transaction,
@@ -686,14 +686,14 @@ pub fn add_extra_signatory(
   }
 }
 
-/// Tx maniputlator - Add a redeemer to the transaction.
+/// Tx manipulator - Add a redeemer to the transaction.
 /// This function will only run when the condition is `True`.
 /// ```aiken
 /// let tx = mocktail_tx()
 ///   |> ...tx building methods
 ///   |> complete()
 ///   |> add_redeemer(condition, redeemer)
-///   |> ...other tx maniputlator methods
+///   |> ...other tx manipulator methods
 /// ```
 pub fn add_redeemer(
   tx: Transaction,
@@ -707,14 +707,14 @@ pub fn add_redeemer(
   }
 }
 
-/// Tx maniputlator - Add a datum to the transaction.
+/// Tx manipulator - Add a datum to the transaction.
 /// This function will only run when the condition is `True`.
 /// ```aiken
 /// let tx = mocktail_tx()
 ///   |> ...tx building methods
 ///   |> complete()
 ///   |> add_datum(condition, datum)
-///   |> ...other tx maniputlator methods
+///   |> ...other tx manipulator methods
 /// ```
 pub fn add_datum(tx: Transaction, condition: Bool, datum: Data) -> Transaction {
   if !condition {
@@ -725,14 +725,14 @@ pub fn add_datum(tx: Transaction, condition: Bool, datum: Data) -> Transaction {
   }
 }
 
-/// Tx maniputlator - Set the transaction id.
+/// Tx manipulator - Set the transaction id.
 /// This function will only run when the condition is `True`.
 /// ```aiken
 /// let tx = mocktail_tx()
 ///   |> ...tx building methods
 ///   |> complete()
 ///   |> set_transaction_id(condition, transaction_id)
-///   |> ...other tx maniputlator methods
+///   |> ...other tx manipulator methods
 /// ```
 pub fn set_transaction_id(
   tx: Transaction,
@@ -748,62 +748,62 @@ pub fn set_transaction_id(
 
 // Address
 
-/// Documentation please refer to [`virgin_address`](./mocktail/virgin_address.html)
+/// For documentation, please refer to [`virgin_address`](./mocktail/virgin_address.html)
 pub const mock_verfication_key_credential =
   virgin_address.mock_verfication_key_credential
 
-/// Documentation please refer to [`virgin_address`](./mocktail/virgin_address.html)
+/// For documentation, please refer to [`virgin_address`](./mocktail/virgin_address.html)
 pub const mock_pub_key_address = virgin_address.mock_pub_key_address
 
-/// Documentation please refer to [`virgin_address`](./mocktail/virgin_address.html)
+/// For documentation, please refer to [`virgin_address`](./mocktail/virgin_address.html)
 pub const mock_script_credential = virgin_address.mock_script_credential
 
-/// Documentation please refer to [`virgin_address`](./mocktail/virgin_address.html)
+/// For documentation, please refer to [`virgin_address`](./mocktail/virgin_address.html)
 pub const mock_script_address = virgin_address.mock_script_address
 
 // Key hash
 
-/// Documentation please refer to [`virgin_key_hash`](./mocktail/virgin_key_hash.html)
+/// For documentation, please refer to [`virgin_key_hash`](./mocktail/virgin_key_hash.html)
 pub const mock_key_hash = virgin_key_hash.mock_key_hash
 
-/// Documentation please refer to [`virgin_key_hash`](./mocktail/virgin_key_hash.html)
+/// For documentation, please refer to [`virgin_key_hash`](./mocktail/virgin_key_hash.html)
 pub const mock_policy_id = virgin_key_hash.mock_policy_id
 
-/// Documentation please refer to [`virgin_key_hash`](./mocktail/virgin_key_hash.html)
+/// For documentation, please refer to [`virgin_key_hash`](./mocktail/virgin_key_hash.html)
 pub const mock_pub_key_hash = virgin_key_hash.mock_pub_key_hash
 
-/// Documentation please refer to [`virgin_key_hash`](./mocktail/virgin_key_hash.html)
+/// For documentation, please refer to [`virgin_key_hash`](./mocktail/virgin_key_hash.html)
 pub const mock_script_hash = virgin_key_hash.mock_script_hash
 
-/// Documentation please refer to [`virgin_key_hash`](./mocktail/virgin_key_hash.html)
+/// For documentation, please refer to [`virgin_key_hash`](./mocktail/virgin_key_hash.html)
 pub const mock_stake_key_hash = virgin_key_hash.mock_stake_key_hash
 
-/// Documentation please refer to [`virgin_key_hash`](./mocktail/virgin_key_hash.html)
+/// For documentation, please refer to [`virgin_key_hash`](./mocktail/virgin_key_hash.html)
 pub const mock_script_stake_key_hash =
   virgin_key_hash.mock_script_stake_key_hash
 
 // Output reference
 
-/// Documentation please refer to [`virgin_output_reference`](./mocktail/virgin_output_reference.html)
+/// For documentation, please refer to [`virgin_output_reference`](./mocktail/virgin_output_reference.html)
 pub const mock_tx_hash = virgin_output_reference.mock_tx_hash
 
-/// Documentation please refer to [`virgin_output_reference`](./mocktail/virgin_output_reference.html)
+/// For documentation, please refer to [`virgin_output_reference`](./mocktail/virgin_output_reference.html)
 pub const mock_utxo_ref = virgin_output_reference.mock_utxo_ref
 
 // Outputs
 
-/// Documentation please refer to [`virgin_outputs`](./mocktail/virgin_outputs.html)
+/// For documentation, please refer to [`virgin_outputs`](./mocktail/virgin_outputs.html)
 pub const mock_output = virgin_outputs.mock_output
 
-/// Documentation please refer to [`virgin_outputs`](./mocktail/virgin_outputs.html)
+/// For documentation, please refer to [`virgin_outputs`](./mocktail/virgin_outputs.html)
 pub const mock_pub_key_output = virgin_outputs.mock_pub_key_output
 
-/// Documentation please refer to [`virgin_outputs`](./mocktail/virgin_outputs.html)
+/// For documentation, please refer to [`virgin_outputs`](./mocktail/virgin_outputs.html)
 pub const mock_script_output = virgin_outputs.mock_script_output
 
 // Validity range
 
-/// Documentation please refer to [`virgin_validity_range`](./mocktail/virgin_validity_range.html)
+/// For documentation, please refer to [`virgin_validity_range`](./mocktail/virgin_validity_range.html)
 pub const mock_interval = virgin_validity_range.mock_interval
 
 test preserve_tx_in_order() {
