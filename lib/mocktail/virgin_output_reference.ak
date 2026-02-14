@@ -10,7 +10,7 @@ pub fn mock_tx_hash(variation: Int) -> Hash<Blake2b_256, Transaction> {
   serialise(variation) |> concat(root_hash) |> blake2b_256()
 }
 
-/// Mock an output reference
+/// Mock an output reference.
 pub fn mock_utxo_ref(variation: Int, output_index: Int) -> OutputReference {
   OutputReference { transaction_id: mock_tx_hash(variation), output_index }
 }
