@@ -1,6 +1,6 @@
 use aiken/collection/list
 use aiken/crypto.{ScriptHash}
-use cardano/address.{Address}
+use cardano/address.{Address, Credential}
 use cardano/assets.{
   AssetName, PolicyId, Value, flatten, merge, quantity_of, zero,
 }
@@ -96,6 +96,42 @@ pub fn get_all_value_from_script(
             acc_value
           }
         _ -> acc_value
+      }
+    },
+  )
+}
+
+/// Get the value send to a particular payment credential in a list of outputs
+/// ```aiken
+/// let value_to = get_all_value_to(outputs, address)
+/// ```
+pub fn get_all_value_to_cred(outputs: List<Output>, cred: Credential) -> Value {
+  list.foldr(
+    outputs,
+    zero,
+    fn(output, acc_value) {
+      if output.address.payment_credential == cred {
+        merge(acc_value, output.value)
+      } else {
+        acc_value
+      }
+    },
+  )
+}
+
+/// Get the value coming from a particular payment credential in a list of inputs
+/// ```aiken
+/// let value_from = get_all_value_from(inputs, address)
+/// ```
+pub fn get_all_value_from_cred(inputs: List<Input>, cred: Credential) -> Value {
+  list.foldr(
+    inputs,
+    zero,
+    fn(input, acc_value) {
+      if input.output.address.payment_credential == cred {
+        merge(acc_value, input.output.value)
+      } else {
+        acc_value
       }
     },
   )
