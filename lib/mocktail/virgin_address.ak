@@ -6,15 +6,15 @@ use mocktail/virgin_key_hash.{
   mock_stake_key_hash,
 }
 
-/// Mock a pub key credential
-/// `variation` same the same index as `mock_pub_key_hash`
+/// Mock a pub key credential.
+/// `variation` same the same index as `mock_pub_key_hash`.
 pub fn mock_verfication_key_credential(variation: Int) -> Credential {
   VerificationKey(mock_pub_key_hash(variation))
 }
 
-/// Mock a pub key address
-/// `variation` same the same index as `mock_pub_key_hash`
-/// `stake_credential` is optional
+/// Mock a pub key address.
+/// `variation` same the same index as `mock_pub_key_hash`.
+/// `stake_credential` is optional.
 pub fn mock_pub_key_address(
   variation: Int,
   stake_credential: Option<StakeCredential>,
@@ -25,15 +25,15 @@ pub fn mock_pub_key_address(
   }
 }
 
-/// Mock a script credential
-/// `variation` same the same index as `mock_script_hash`
+/// Mock a script credential.
+/// `variation` same the same index as `mock_script_hash`.
 pub fn mock_script_credential(variation: Int) -> Credential {
   Script(mock_script_hash(variation))
 }
 
-/// Mock a script address
-/// `variation` same the same index as `mock_script_hash`
-/// `stake_credential` is optional
+/// Mock a script address.
+/// `variation` same the same index as `mock_script_hash`.
+/// `stake_credential` is optional.
 pub fn mock_script_address(
   variation: Int,
   stake_credential: Option<StakeCredential>,
@@ -44,14 +44,14 @@ pub fn mock_script_address(
   }
 }
 
-/// Mock a pub key stake credential
-/// `variation` same the same index as `mock_stake_key_hash`
+/// Mock a pub key stake credential.
+/// `variation` same the same index as `mock_stake_key_hash`.
 pub fn mock_pub_key_stake_cred(variation: Int) -> StakeCredential {
   Inline(VerificationKey(mock_stake_key_hash(variation)))
 }
 
-/// Mock a script stake credential
-/// `variation` same the same index as `mock_script_stake_key_hash`
+/// Mock a script stake credential.
+/// `variation` same the same index as `mock_script_stake_key_hash`.
 pub fn mock_script_stake_cred(variation: Int) -> StakeCredential {
   Inline(Script(mock_script_stake_key_hash(variation)))
 }
