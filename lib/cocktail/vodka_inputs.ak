@@ -43,7 +43,7 @@ pub fn i_at(address: Address) -> fn(Input) -> Bool {
   fn(i: Input) { i.output.address == address }
 }
 
-/// Filters inputs by PolicyId and AssetName.
+/// Filters inputs by PolicyId and AssetName where the asset quantity is exactly one.
 /// ```aiken
 /// let filtered_inputs = inputs_with(inputs, policy, name)
 /// ```
@@ -55,6 +55,19 @@ pub fn inputs_with(
   list.filter(inputs, i_with(policy, name))
 }
 
+/// Filters inputs by PolicyId and AssetName when the asset quantity is greater than zero.
+/// ```aiken
+/// let filtered_inputs = inputs_with_any(inputs, policy, name)
+/// ```
+pub fn inputs_with_any(
+  inputs: List<Input>,
+  policy: PolicyId,
+  name: AssetName,
+) -> List<Input> {
+  list.filter(inputs, i_with_any(policy, name))
+}
+
+/// Deprecated: this predicate matches only singleton assets (quantity == 1). Prefer `i_with_singleton` for explicit singleton checks or `i_with_any` for general presence checks.
 /// Predicate to filter inputs by PolicyId and AssetName, can be used as grouping inputs for example.
 /// ```aiken
 /// let predicate = i_with(policy, name)
@@ -63,6 +76,27 @@ pub fn inputs_with(
 pub fn i_with(policy: PolicyId, name: AssetName) -> fn(Input) -> Bool {
   fn(i: Input) { quantity_of(i.output.value, policy, name) == 1 }
 }
+
+/// Predicate to filter inputs by PolicyId and AssetName when the asset is present,
+/// can be used as grouping inputs for example.
+/// ```aiken
+/// let predicate = i_with_any(policy, name)
+/// let (grouped_inputs, other_inputs) = group_inputs(inputs, predicate)
+/// ```
+pub fn i_with_any(policy: PolicyId, name: AssetName) -> fn(Input) -> Bool {
+  fn(i: Input) { quantity_of(i.output.value, policy, name) > 0 }
+}
+
+/// Predicate to filter inputs by PolicyId and AssetName when the asset quantity
+/// is exactly one, can be used as grouping inputs for example.
+/// ```aiken
+/// let predicate = i_with_singleton(policy, name)
+/// let (grouped_inputs, other_inputs) = group_inputs(inputs, predicate)
+/// ```
+pub fn i_with_singleton(policy: PolicyId, name: AssetName) -> fn(Input) -> Bool {
+  fn(i: Input) { quantity_of(i.output.value, policy, name) == 1 }
+}
+
 
 /// Filters inputs by token policy.
 /// ```aiken
