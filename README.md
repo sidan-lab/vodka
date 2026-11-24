@@ -9,7 +9,7 @@
   <hr/>
 </div>
 
-Vodka is a library build for [Aiken](https://aiken-lang.org/) development. It offers
+Vodka is a library build for [Aiken](https://aiken-lang.org/) development. It offers:
 
 1. [Cocktail](https://sidan-lab.github.io/vodka/cocktail.html) - Validating utils in writing on-chain code in aiken
 2. [Mocktail](https://sidan-lab.github.io/vodka/mocktail.html) - Unit test utils for easy building mock value for unit test
