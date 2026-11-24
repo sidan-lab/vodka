@@ -2,14 +2,14 @@ use aiken/crypto.{Blake2b_224, Hash, ScriptHash, VerificationKeyHash}
 use aiken/primitive/bytearray
 use cardano/address.{Address, Script, VerificationKey}
 
-/// Compare two script addresses 
+/// Compare two script addresses, produces ordering
 pub fn compare_script_address(x: Address, y: Address) -> Ordering {
   expect Script(x_hash) = x.payment_credential
   expect Script(y_hash) = y.payment_credential
   bytearray.compare(x_hash, y_hash)
 }
 
-/// Compare two addresses
+/// Compare two addresses, produces ordering
 pub fn compare_address(x: Address, y: Address) -> Ordering {
   let x_hash = x.payment_credential
   let y_hash = y.payment_credential
