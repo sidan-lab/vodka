@@ -1,5 +1,5 @@
 <div align="center">
-  <hr />
+  <hr/>
     <h2 align="center" style="border-bottom: none"><img style="position: relative; top: 0.25rem;" src="https://raw.githubusercontent.com/sidan-lab/brand_assets/main/sidan_square.png" alt="Aiken" height="30" /> Vodka - Library for Aiken Development</h2>
 
 [![Licence](https://img.shields.io/github/license/sidan-lab/vodka)](https://github.com/sidan-lab/vodka/blob/main/LICENSE)
